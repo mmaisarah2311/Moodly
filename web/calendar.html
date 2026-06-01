@@ -61,10 +61,9 @@
   </main>
 
   <script>
-  // Mengambil database emosi daripada localStorage
+ 
   let moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
   
-  // Menggunakan tarikh semasa secara dinamik (Boleh navigasi ke mana-mana bulan/tahun)
   let activeDatePointer = new Date(); 
 
   const monthNames = [

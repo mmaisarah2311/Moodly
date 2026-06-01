@@ -69,7 +69,7 @@
     const registerBtn = document.querySelector('.register-btn');
     const loginBtn = document.querySelector('.login-btn');
 
-    // Mengekalkan animasi slide sedia ada anda
+    
     registerBtn.addEventListener('click', () => {
         container.classList.add('active');
     });
@@ -78,17 +78,17 @@
         container.classList.remove('active');
     });
 
-    // ================= 1. LOGIK DAFTAR BARU (REGISTER) =================
+    
     function register(event) {
         event.preventDefault();
 
         const regUsername = document.getElementById("regUsername").value.trim();
         const regPassword = document.getElementById("regPassword").value;
 
-        // Ambil senarai semua akaun yang pernah disimpan sebelum ini
+        
         let usersList = JSON.parse(localStorage.getItem("moodly_users")) || [];
 
-        // Semak jika username sudah pernah digunakan
+        
         const userExists = usersList.some(user => user.username.toLowerCase() === regUsername.toLowerCase());
 
         if (userExists) {
@@ -96,20 +96,20 @@
             return;
         }
 
-        // Masukkan data akaun baharu ke dalam array
+        
         usersList.push({ username: regUsername, password: regPassword });
         
-        // Simpan semula array yang dikemas kini ke dalam localStorage
+        
         localStorage.setItem("moodly_users", JSON.stringify(usersList));
 
         alert("Registration successful! Slid back to login to access your account.");
         
-        // Reset borang register dan slide balik ke panel login secara automatik
+        
         event.target.reset();
         container.classList.remove('active');
     }
 
-    // ================= 2. LOGIK MASUK (LOGIN DINAMIK) =================
+    
     function login(event) {
         event.preventDefault();
 
@@ -117,10 +117,10 @@
         const passwordInput = document.getElementById("password").value;
         const error = document.getElementById("error");
 
-        // Ambil data akaun-akaun berdaftar dari localStorage
+        
         let usersList = JSON.parse(localStorage.getItem("moodly_users")) || [];
 
-        // 🌟 KITA MASUKKAN SEKALI LOGIN LAMA ANDA SEBAGAI BACKUP DEFAULT ADMIN
+        
         if (usernameInput === "Masyi" && passwordInput === "1234") {
             localStorage.setItem("moodly_users", JSON.stringify([{ username: "Masyi", password: "1234" }]));
             localStorage.setItem("current_logged_user", usernameInput);
@@ -128,20 +128,20 @@
             return;
         }
 
-        // Cari sama ada username & password yang ditaip sepadan dengan mana-mana pengguna berdaftar
+        
         const validUser = usersList.find(user => user.username.toLowerCase() === usernameInput.toLowerCase() && user.password === passwordInput);
 
         if (validUser) {
-            // Simpan nama user yang sedang aktif untuk dipanggil dekat dashboard nanti
+            
             localStorage.setItem("current_logged_user", validUser.username);
             
-            // Mengikut kod asal anda (menggunakan 'moodTrackerUser' jika diperlukan)
+            
             localStorage.setItem("moodTrackerUser", validUser.username); 
             
             error.style.display = "none";
             window.location.href = "dashboard.html";
         } else {
-            // Papar mesej ralat jika tidak sepadan
+            
             error.style.display = "block";
         }
     }
