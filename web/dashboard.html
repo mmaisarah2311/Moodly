@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodly - Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="Image/icon.jpg">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class='bx bx-leaf'></i> Moodly
+        </div>
+       <ul class="sidebar-menu">
+            <li class="nav-dash"><a href="dashboard.html"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+            <li class="nav-check"><a href="check-in.html"><i class='bx bxs-edit-location'></i> Daily Check-in</a></li>
+            <li class="nav-cal"><a href="calendar.html"><i class='bx bxs-calendar-event'></i> Calendar</a></li>
+            <li class="nav-res"><a href="resources.html"><i class='bx bxs-info-circle'></i> Resources</a></li>
+            <li class="nav-about"><a href="about.html"><i class='bx bxs-user'></i> About</a></li>
+            <li style="margin-top: auto; width: 100%;"><a href="login.html"><i class='bx bxs-log-out'></i> Logout</a></li>
+        </ul>
+    </div>
+<div class="main-content">
+        
+        <div class="welcome-banner">
+            <div class="welcome-text">
+                <h1>HELLO, MASYITAH!</h1>
+                <div class="meta-stats">
+                    <span><i class='bx bxs-hot'></i> Streak: <strong id="streakCount">0</strong> days</span> | 
+                    <span>Total logs: <strong id="totalLogs">0</strong></span>
+                </div>
+            </div>
+            <div class="insight-card">
+                <strong><i class='bx bxs-bulb'></i> Daily Insight</strong>
+                <p style="margin-top: 5px; opacity: 0.9;">Balance achieved! Keep maintaining your tracking schedules.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <div class="dashboard-card">
+                <div class="card-title">
+                    <i class='bx bx-trending-up'></i> Mood Metrics Over Time
+                </div>
+                
+                <div class="chart-view-wrapper">
+                    <div class="chart-y-axis">
+                        <span>High</span>
+                        <span>Mod</span>
+                        <span>Mild</span>
+                        <span>None</span>
+                    </div>
+                    <div id="chartBarsContainer"></div>
+                </div>
+
+                <div class="quote-card" style="margin-top: 30px; background: linear-gradient(135deg, #edf1ee, #e2ebe5); padding: 25px; border-radius: 16px; border-left: 5px solid #5d7e6c; display: flex; align-items: center; gap: 15px; text-align: left;">
+                    <div style="font-size: 30px; color: #5d7e6c;"><i class='bx bxs-quote-left'></i></div>
+                    <div>
+                        <p style="font-size: 14.5px; color: #3e5246; font-style: italic; font-weight: 500; margin-bottom: 5px;">
+                            "Your mental health is a priority. Your happiness is an essential. Your self-care is a necessity."
+                        </p>
+                        <span style="font-size: 12px; color: #7a9485; font-weight: 600;">— Moodly Reminder</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                
+                <div class="dashboard-card" style="width: 100%; margin-bottom: 0;">
+                    <div class="card-title">
+                        <i class='bx bx-pie-chart-alt-2'></i> Distribution Profile
+                    </div>
+                    <div id="distributionContainer"></div>
+                </div>
+
+                <div class="dashboard-card" style="width: 100%; margin-bottom: 0;">
+                    <div class="card-title">
+                        <i class='bx bx-moon'></i> Recent Sleep Rest
+                    </div>
+                    <div id="sleepDashboardView" style="text-align: center; padding: 10px 0;"></div>
+                </div>
+
+            </div>
+
+        </div> 
+
+        <div class="dashboard-card" style="width: 100%;">
+            <div class="card-title">
+                <i class='bx bx-history'></i> Recent History Log
+            </div>
+            <ul id="historyLogList" class="history-list"></ul>
+        </div>
+
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          renderDashboardData();
+      });
+
+      function renderDashboardData() {
+          var moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
+
+          var totalLogsElement = document.getElementById("totalLogs");
+          if (totalLogsElement) {
+              totalLogsElement.innerText = moodlyData.length;
+          }
+
+          calculateAndShowStreak(moodlyData);
+          generateLineChart(moodlyData);
+          generateDistributionProfile(moodlyData);
+          renderRecentHistory(moodlyData);
+          
+          // Memanggil fungsi paparan tidur
+          renderSleepDashboard(moodlyData);
+      }
+
+      // --- LOGIK STREAK BEBAS RALAT ---
+      function calculateAndShowStreak(moodlyData) {
+          var streakElement = document.getElementById("streakCount");
+          if (!streakElement) return;
+
+          if (moodlyData.length === 0) {
+              streakElement.innerText = "0";
+              return;
+          }
+
+          var uniqueDates = [];
+          for (var i = 0; i < moodlyData.length; i++) {
+              var dStr = moodlyData[i].date.split(' ')[0];
+              if (uniqueDates.indexOf(dStr) === -1) {
+                  uniqueDates.push(dStr);
+              }
+          }
+
+          var sortedTimestamps = uniqueDates.map(function(dateStr) {
+              var parts = dateStr.split('/');
+              var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+              return new Date(formattedDate).getTime();
+          }).sort(function(a, b) { return b - a; });
+
+          var today = new Date();
+          var todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+          var oneDayMs = 24 * 60 * 60 * 1000;
+
+          var latestLogTimestamp = sortedTimestamps[0];
+          var diffDaysFromToday = Math.round((todayMidnight - latestLogTimestamp) / oneDayMs);
+
+          var streak = 0;
+          if (diffDaysFromToday <= 1) {
+              var currentCheckTimestamp = latestLogTimestamp;
+              streak = 1;
+
+              for (var j = 1; j < sortedTimestamps.length; j++) {
+                  var nextTargetTimestamp = sortedTimestamps[j];
+                  var dayGap = Math.round((currentCheckTimestamp - nextTargetTimestamp) / oneDayMs);
+
+                  if (dayGap === 1) {
+                      streak++;
+                      currentCheckTimestamp = nextTargetTimestamp;
+                  } else if (dayGap > 1) {
+                      break;
+                  }
+              }
+          } else {
+              streak = 0;
+          }
+
+          streakElement.innerText = streak;
+      }
+
+      // --- PENJANAAN LINE CHART DENGAN STRING AMAN ---
+      function generateLineChart(moodlyData) {
+          var chartContainer = document.getElementById("chartBarsContainer");
+          if (!chartContainer) return;
+
+          chartContainer.innerHTML = "";
+
+          if (moodlyData.length === 0) {
+              chartContainer.innerHTML = "<p style='color:#a3b899; font-size:13px; padding: 20px; text-align:center; width:100%;'>No graph data available.</p>";
+              return;
+          }
+
+          var lastLogs = moodlyData.slice(-7);
+          var points = [];
+          var widthBetweenPoints = lastLogs.length > 1 ? 240 / (lastLogs.length - 1) : 0;
+
+          lastLogs.forEach(function(item, index) {
+              var yCoord = 90; // Default paksi (Mild)
+
+              if (item.note && item.note.includes("Intensity:")) {
+                  var matchedIntensity = item.note.match(/Intensity:\s*(\d+)/);
+                  if (matchedIntensity) {
+                      var val = parseInt(matchedIntensity[1]);
+                      if (val >= 5) yCoord = 5;       // Memuncak ke High
+                      else if (val >= 4) yCoord = 45;
+                      else if (val >= 3) yCoord = 85;  // Mod
+                      else if (val >= 2) yCoord = 115; // Mild
+                      else yCoord = 135;               // None
+                  }
+              } else if (item.mood === "\uD83D\uDE0A" || item.mood === "Happy") {
+                  yCoord = 35;
+              } else if (item.mood === "\uD83D\uDE0A" || item.mood === "Calm") {
+                  yCoord = 75;
+              }
+
+              var xCoord = 15 + (index * widthBetweenPoints);
+              points.push({ x: xCoord, y: yCoord, raw: item });
+          });
+
+          var pathDefinition = "";
+          points.forEach(function(p, idx) {
+              if (idx === 0) {
+                  pathDefinition += "M " + p.x + " " + p.y;
+              } else {
+                  pathDefinition += " L " + p.x + " " + p.y;
+              }
+          });
+
+          var svgHtml = '<svg viewBox="0 0 280 140" style="width: 100%; height: 135px; overflow: visible;">' +
+                        '<path d="' + pathDefinition + '" fill="none" stroke="#a3b899" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>' +
+                        '<path d="' + pathDefinition + '" fill="none" stroke="#5d7e6c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+
+          points.forEach(function(p) {
+              var dayTitle = p.raw.mood ? p.raw.mood : "Log";
+              svgHtml += '<circle cx="' + p.x + '" cy="' + p.y + '" r="5" fill="#ffffff" stroke="#5d7e6c" stroke-width="2.5" style="cursor: pointer;" title="' + dayTitle + '"></circle>';
+          });
+          svgHtml += '</svg>';
+
+          var labelsHtml = '<div style="display: flex; justify-content: space-between; padding: 0 5px; margin-top: 8px; width: 100%; box-sizing: border-box;">';
+          points.forEach(function(p) {
+              var dayNumber = p.raw.date.split('/')[0];
+              labelsHtml += '<span style="font-size: 11px; color: #a0b2a6; font-weight: 600; width: 30px; text-align: center;">' + dayNumber + '</span>';
+          });
+          labelsHtml += '</div>';
+
+          chartContainer.innerHTML = svgHtml + labelsHtml;
+      }
+
+      // --- CARTA AGIHAN EMOSI ---
+      function generateDistributionProfile(moodlyData) {
+          var container = document.getElementById("distributionContainer");
+          if (!container) return;
+
+          if (moodlyData.length === 0) {
+              container.innerHTML = "<p style='color:#a3b899; font-size:13px;'>No profile distributions found.</p>";
+              return;
+          }
+
+          var moodCounts = {};
+          moodlyData.forEach(function(item) {
+              var m = item.mood || "📝 Log";
+              moodCounts[m] = (moodCounts[m] || 0) + 1;
+          });
+
+          container.innerHTML = "";
+          
+          Object.keys(moodCounts).forEach(function(key) {
+              var percentage = Math.round((moodCounts[key] / moodlyData.length) * 100);
+              var distItem = document.createElement("div");
+              distItem.className = "dist-item";
+              distItem.innerHTML = '<div class="dist-meta"><span>' + key + ' ' + percentage + '%</span></div>' +
+                                   '<div class="progress-track-wrapper">' +
+                                   '<div class="progress-fill-bar" style="width: ' + percentage + '%;"></div>' +
+                                   '</div>';
+              container.appendChild(distItem);
+          });
+      }
+
+     // --- PENJANA CARTA BAR TIDUR DENGAN MENGEKSTRAK TEKS NOTA (REGEX) ---
+      function renderSleepDashboard(moodlyData) {
+          var sleepContainer = document.getElementById("sleepDashboardView");
+          if (!sleepContainer) return;
+
+          if (moodlyData.length === 0) {
+              sleepContainer.innerHTML = "<p style='color:#a3b899; font-size:13px;'>No check-in logs tracked yet.</p>";
+              return;
+          }
+
+          // Ambil maksimum 5 log terakhir untuk dibina menjadi carta bar
+          var lastFewLogs = moodlyData.slice(-5);
+          var barHtml = '<div style="display: flex; justify-content: space-around; align-items: flex-end; height: 120px; padding-top: 15px; margin-bottom: 10px;">';
+          
+          var foundAnySleepData = false;
+
+          lastFewLogs.forEach(function(item) {
+              var hours = 0; // Default jika tiada rekod tidur pada hari tersebut
+              
+              // Jika data tidur terperangkap di dalam string 'note' (Contoh: "Sleep: 6h")
+              if (item.note && item.note.includes("Sleep:")) {
+                  var match = item.note.match(/Sleep:\s*(\d+(\.\d+)?)\s*h/i);
+                  if (match && match[1]) {
+                      hours = parseFloat(match[1]);
+                      foundAnySleepData = true;
+                  }
+              }
+
+              // Pengiraan ketinggian bar (Kiraan berdasarkan maksimum 10 jam tidur = 100% tinggi)
+              var maxTargetHours = 10;
+              var barHeightPercentage = Math.min((hours / maxTargetHours) * 100, 100);
+              
+              // Tentukan warna bar secara dinamik berdasarkan kecukupan tidur
+              var barColor = "#e57373"; // Merah (Kurang tidur / < 5 jam)
+              if (hours >= 7) {
+                  barColor = "#5d7e6c"; // Hijau Moodly (Cukup tidur / >= 7 jam)
+              } else if (hours >= 5) {
+                  barColor = "#8fae9a"; // Hijau Lembut (Sederhana / 5-6 jam)
+              }
+
+              // Ambil digit hari sahaja (contoh: '26' daripada '26/05/2026') untuk label bawah bar
+              var dayLabel = item.date ? item.date.split('/')[0] : "Log";
+
+              // Bina tiang bar beserta tooltip ulasan apabila tetikus digerakkan (hover)
+              barHtml += '<div style="display: flex; flex-direction: column; align-items: center; width: 40px; position: relative;" title="Slept ' + hours + ' hours on ' + dayLabel + '">' +
+                         '  <span style="font-size: 11px; font-weight: bold; color: ' + barColor + '; margin-bottom: 4px;">' + (hours > 0 ? hours + 'h' : '-') + '</span>' +
+                         '  <div style="width: 24px; height: ' + barHeightPercentage + 'px; background-color: ' + barColor + '; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>' +
+                         '  <span style="font-size: 11px; color: #a0b2a6; font-weight: 600; margin-top: 6px;">' + dayLabel + '</span>' +
+                         '</div>';
+          });
+
+          barHtml += '</div>';
+
+          // Jika sistem gagal mengorek sebarang perkataan "Sleep:" dalam nota-nota lama
+          if (!foundAnySleepData) {
+              sleepContainer.innerHTML = "<p style='color:#a3b899; font-size:13px;'>Sleep data not found in logs.</p>" +
+                                         "<p style='color:#b5c4b1; font-size:11px; margin-top:4px;'>Make sure your logs contain '[Sleep: Xh]' format.</p>";
+              return;
+          }
+
+          // Suntik carta bar masuk ke dalam kontena dashboard
+          sleepContainer.innerHTML = barHtml + '<p style="font-size: 11px; color: #a0b2a6; text-align: center; margin-top: 5px;"><i class="bx bx-info-circle"></i> Showing duration (hours) for past logs</p>';
+      }
+      // --- SENARAI SEJARAH BESERTA BUTANG TONGSAMPAH ---
+      function renderRecentHistory(moodlyData) {
+          var historyList = document.getElementById("historyLogList");
+          if (!historyList) return;
+
+          historyList.innerHTML = "";
+
+          if (moodlyData.length === 0) {
+              historyList.innerHTML = "<li style='color:#a3b899; font-size:13px; list-style:none;'>No tracking records found.</li>";
+              return;
+          }
+
+          var chronologicalLogs = moodlyData.slice().reverse();
+
+          chronologicalLogs.forEach(function(item, index) {
+              var originalIndex = moodlyData.length - 1 - index;
+              var li = document.createElement("li");
+              li.className = "history-item";
+
+              var moodTitle = item.mood || "📝";
+              var customNote = item.note || "No custom notes provided.";
+
+              li.innerHTML = '<div class="history-meta" style="display:flex; justify-content:space-between; align-items:center;">' +
+                             '<strong>' + moodTitle + ' Feeling Log</strong>' +
+                             '<span class="history-time" style="font-size:12px; color:#a0b2a6; margin-right:35px;">' + item.date + '</span>' +
+                             '</div>' +
+                             '<p class="history-note" style="margin-top:5px; font-size:13px; color:#556b5c;">"' + customNote + '"</p>' +
+                             '<button class="delete-log-btn" data-index="' + originalIndex + '" style="position: absolute; right: 12px; top: 12px; background: transparent; border: none; color: #e57373; font-size: 18px; cursor: pointer;" title="Delete log">' +
+                             '<i class="bx bx-trash"></i>' +
+                             '</button>';
+              
+              historyList.appendChild(li);
+          });
+
+          document.querySelectorAll(".delete-log-btn").forEach(function(button) {
+              button.addEventListener("click", function() {
+                  var targetIndex = parseInt(this.getAttribute("data-index"));
+                  if (confirm("Are you sure you want to delete this log entry?")) {
+                      moodlyData.splice(targetIndex, 1);
+                      localStorage.setItem("moodly_data", JSON.stringify(moodlyData));
+                      renderDashboardData();
+                  }
+              });
+          });
+      }
+    </script>
+</body>
+</html>

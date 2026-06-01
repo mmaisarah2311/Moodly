@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moodly | Daily Check-In</title>
+  <link rel="icon" type="image/x-icon" href="Image/icon.jpg">
+  <link rel="stylesheet" href="check-in.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+   <div class="sidebar">
+        <div class="logo">
+            <i class='bx bx-leaf'></i> Moodly
+        </div>
+       <ul class="sidebar-menu">
+            <li class="nav-dash"><a href="dashboard.html"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+            <li class="nav-check"><a href="check-in.html"><i class='bx bxs-edit-location'></i> Daily Check-in</a></li>
+            <li class="nav-cal"><a href="calendar.html"><i class='bx bxs-calendar-event'></i> Calendar</a></li>
+            <li class="nav-res"><a href="resources.html"><i class='bx bxs-info-circle'></i> Resources</a></li>
+            <li class="nav-about"><a href="about.html"><i class='bx bxs-user'></i> About</a></li>
+            <li style="margin-top: auto; width: 100%;"><a href="login.html"><i class='bx bxs-log-out'></i> Logout</a></li>
+        </ul>
+    </div>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1>Daily Clinical Check-In</h1>
+      <p>Fill out the comprehensive evaluation forms below to log your status matrices.</p>
+    </div>
+
+    <div class="checkin-grid-layout">
+      
+      <div class="levers-column">
+        
+        <div class="section-block c-mood">
+          <h3>1. Core Mood & Intensity</h3>
+          
+          <div class="form-field" style="margin-bottom: 20px;">
+            <label for="primaryMood">Primary Emotion Base</label>
+            <select id="primaryMood" class="select-box">
+              <option value="😊 Calm">😌 Calm</option>
+              <option value="😰 Anxious">😰 Anxious</option>
+              <option value="😡 Frustrated">😡 Frustrated</option>
+              <option value="💖 Grateful">💖 Grateful</option>
+              <option value="🤯 Overwhelmed">🤯 Overwhelmed</option>
+              <option value="⚡ Energetic">⚡ Energetic</option>
+            </select>
+          </div>
+
+          <div class="lever-item">
+            <div class="lever-meta">
+              <label>Emotion Intensity Rating</label>
+              <span class="badge-pill" id="intensityVal">Level 3</span>
+            </div>
+            <input type="range" min="1" max="5" value="3" class="slider-bar" id="intensitySlider" oninput="updatePlainValue('intensity', this.value, 'Level ')">
+            <div class="scale-guide">
+              <span>1 (Very Mild)</span><span>3</span><span>5 (Extreme)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block c-phys">
+          <h3>2. Physical & Biological Factors</h3>
+          
+          <div class="lever-item">
+            <div class="lever-meta">
+              <label>Sleep Duration (Last Night)</label>
+              <span class="badge-pill" id="sleepVal">8 Hrs</span>
+            </div>
+            <input type="range" min="1" max="12" value="8" class="slider-bar" id="sleepSlider" oninput="updatePlainValue('sleep', this.value, '', ' Hrs')">
+            <div class="scale-guide">
+              <span>1 Hr</span><span>6 Hrs</span><span>12 Hrs</span>
+            </div>
+          </div>
+
+          <div class="lever-item">
+            <div class="lever-meta">
+              <label>Energy Assessment</label>
+              <span class="badge-pill" id="energyVal">Balanced</span>
+            </div>
+            <input type="range" min="0" max="2" value="1" class="slider-bar" id="energySlider" oninput="updateEnergyLabel(this.value)">
+            <div class="scale-guide">
+              <span>Sluggish</span><span>Balanced</span><span>Hyperactive</span>
+            </div>
+          </div>
+
+          <div class="lever-item">
+            <div class="lever-meta">
+              <label>Diet & Hydration Balance</label>
+              <span class="badge-pill" id="dietVal">Stable Diet</span>
+            </div>
+            <input type="range" min="0" max="2" value="1" class="slider-bar" id="dietSlider" oninput="updateDietLabel(this.value)">
+            <div class="scale-guide">
+              <span>Poor / Skipped</span><span>Stable Diet</span><span>Excess Caffeine</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block c-life">
+          <h3>3. Lifestyle & Self-Care</h3>
+          
+          <div class="lever-item">
+            <div class="lever-meta">
+              <label>Physical Movement / Exercise</label>
+              <span class="badge-pill" id="moveVal">No</span>
+            </div>
+            <input type="range" min="0" max="1" value="0" class="slider-bar" id="moveSlider" oninput="updateBinaryLabel('move', this.value)">
+            <div class="scale-guide">
+              <span>No Exercise</span><span>Active Movement</span>
+            </div>
+          </div>
+
+          <div class="lever-item">
+            <div class="lever-meta">
+              <label>Medication / Vitamins Compliance</label>
+              <span class="badge-pill" id="medVal">Yes</span>
+            </div>
+            <input type="range" min="0" max="1" value="1" class="slider-bar" id="medSlider" oninput="updateBinaryLabel('med', this.value)">
+            <div class="scale-guide">
+              <span>Missed / None</span><span>Taken On Time</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block c-cycle">
+          <h3>4. Biological Cycle Tracking</h3>
+          <div class="lever-meta" style="margin-bottom: 12px;">
+            <label>Are you currently on your period?</label>
+          </div>
+          <div class="period-switch-container">
+            <label class="period-label">
+              <input type="radio" name="periodStatus" value="No" checked>
+              <span class="custom-radio">❌ No</span>
+            </label>
+            <label class="period-label">
+              <input type="radio" name="periodStatus" value="Yes">
+              <span class="custom-radio">🩸 Yes (Active Cycle)</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="meta-column">
+        
+        <div class="section-block">
+          <h3>Context & Triggers</h3>
+          
+          <div class="form-field">
+            <label for="triggerEvent">Significant Event Factor</label>
+            <select id="triggerEvent" class="select-box">
+              <option value="Routine Day">Routine Day / Nothing Specific</option>
+              <option value="Academic Workload">Heavy Academic Workload</option>
+              <option value="Social Gathering">Social Gathering / Meeting Friends</option>
+              <option value="Conflict / Argument">Conflict / Misunderstanding</option>
+              <option value="Good News">Received Good News</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="socialActivity">Social Engagement Context</label>
+            <select id="socialActivity" class="select-box">
+              <option value="Isolated / Solitude">Spent Time in Solitude</option>
+              <option value="Productive Peer Group">Interaction with Peers</option>
+              <option value="Family Engagement">Family Engagement Time</option>
+              <option value="Difficult Interaction">Difficult / Tense Interaction</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="environmentSetting">Physical Environment Location</label>
+            <select id="environmentSetting" class="select-box">
+              <option value="Home / Resting">Home / Cozy Indoor Setting</option>
+              <option value="Campus / Library">Campus Lab / Library Workspace</option>
+              <option value="Outdoors / Nature">Outdoors / Commuting in Nature</option>
+              <option value="Crowded Noise Space">Stuck in Crowded/Noisy Spaces</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-block" style="flex: 1; display: flex; flex-direction: column;">
+          <h3>Reflection Corner</h3>
+          <div class="form-field" style="flex: 1; display: flex; flex-direction: column; margin: 0;">
+            <textarea id="reflectionNote" class="text-area-box" style="flex: 1; min-height: 180px;" placeholder="Document diagnostic notes or write down what triggered these physiological balances..."></textarea>
+          </div>
+          
+          <button class="action-dispatch-btn" style="margin-top: 20px;" onclick="dispatchLogData()">
+            <i class='bx bx-cloud-upload'></i> Post Analytical Record
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function updatePlainValue(id, val, prefix = '', suffix = '') {
+        document.getElementById(id + "Val").innerText = prefix + val + suffix;
+    }
+
+    function updateEnergyLabel(val) {
+        const labels = ["Sluggish", "Balanced", "Hyperactive"];
+        document.getElementById("energyVal").innerText = labels[val];
+    }
+
+    function updateDietLabel(val) {
+        const labels = ["Poor / Skipped", "Stable Diet", "Excess Caffeine"];
+        document.getElementById("dietVal").innerText = labels[val];
+    }
+
+    function updateBinaryLabel(id, val) {
+        document.getElementById(id + "Val").innerText = (val == 1) ? "Yes" : "No";
+    }
+
+    function dispatchLogData() {
+        // Collect dropdown values
+        const primaryMoodSelect = document.getElementById("primaryMood").value;
+        const moodEmoji = primaryMoodSelect.split(' ')[0];
+        const moodLabel = primaryMoodSelect.split(' ')[1] || primaryMoodSelect;
+        
+        const intensity = document.getElementById("intensitySlider").value;
+        const sleep = document.getElementById("sleepSlider").value;
+        
+        const energyLevels = ["Sluggish", "Balanced", "Hyperactive"];
+        const energy = energyLevels[document.getElementById("energySlider").value];
+        
+        const dietLevels = ["Poor/Skipped", "Stable Diet", "High Caffeine"];
+        const diet = dietLevels[document.getElementById("dietSlider").value];
+        
+        const movement = (document.getElementById("moveSlider").value == 1) ? "Exercised" : "No Exercise";
+        const medication = (document.getElementById("medSlider").value == 1) ? "Compliant" : "Missed";
+        const period = document.querySelector('input[name="periodStatus"]:checked').value;
+        
+        const eventTrigger = document.getElementById("triggerEvent").value;
+        const socialContext = document.getElementById("socialActivity").value;
+        const environmentLoc = document.getElementById("environmentSetting").value;
+        const noteRaw = document.getElementById("reflectionNote").value.trim();
+
+        // Process current Date objects
+        const currentTimestamp = new Date();
+        const finalDate = `${String(currentTimestamp.getDate()).padStart(2, '0')}/${String(currentTimestamp.getMonth() + 1).padStart(2, '0')}/${currentTimestamp.getFullYear()}`;
+        const finalTime = currentTimestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        // Compile comprehensive analytical report string block for display feeds
+        const dynamicSummaryString = noteRaw 
+            ? `${noteRaw} [Intensity: ${intensity}/5, Sleep: ${sleep}h, Energy: ${energy}, Diet: ${diet}, ${movement}, Meds: ${medication}, Period: ${period}, Event: ${eventTrigger}, Social: ${socialContext}, Area: ${environmentLoc}]`
+            : `Logged status parameters: Base Emotion -> ${moodLabel} (${intensity}/5). Sleep logged at ${sleep} hours (${energy} energy level). Menstrual Cycle Active: ${period}. Social factor marked as: ${socialContext}.`;
+
+        const newDiagnosticPayload = {
+            mood: moodEmoji,
+            note: dynamicSummaryString,
+            date: finalDate,
+            time: finalTime
+        };
+
+        let currentActiveLogs = JSON.parse(localStorage.getItem("moodly_data")) || [];
+        currentActiveLogs.push(newDiagnosticPayload);
+        localStorage.setItem("moodly_data", JSON.stringify(currentActiveLogs));
+
+        alert("Analytical parameters captured successfully!");
+        window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>

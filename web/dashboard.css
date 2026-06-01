@@ -1,0 +1,316 @@
+/* ==========================================================================
+   1. UNIFORM RESET & GLOBAL STYLES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f3f6f4;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    background-color: #5d7e6c;
+    color: white;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%; /* WAJIB: Membenarkan menu memanjang ke bawah */
+    padding-bottom: 20px; /* Memberi ruang di bawah butang Logout */
+}
+
+.sidebar-menu li a {
+    color: #e2ebe5;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+/* Memaksa semua tapak ikon mempunyai kelebaran tegar yang sama */
+.sidebar-menu li a i {
+    font-size: 20px;
+    width: 24px; 
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gaya menyala HANYA untuk butang yang mempunyai kelas active */
+.sidebar-menu li.active a {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 600;
+}
+
+/* Gaya hover biasa */
+.sidebar-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* ==========================================================================
+   3. MAIN CONTENT CONTAINER
+   ========================================================================== */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    margin-left: 240px; /* Memberi ruang agar tidak ditindih fixed sidebar */
+    overflow-y: auto;
+}
+
+/* --- WELCOME BANNER --- */
+.welcome-banner {
+    background-color: #5d7e6c;
+    color: white;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(93, 126, 108, 0.15);
+}
+
+.welcome-text h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.meta-stats {
+    font-size: 14px;
+    color: #e2ebe5;
+}
+
+.meta-stats strong {
+    color: white;
+}
+
+.insight-card {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px 20px;
+    border-radius: 12px;
+    max-width: 350px;
+    font-size: 13px;
+}
+
+/* ==========================================================================
+   4. DASHBOARD GRID & CARDS SYSTEM
+   ========================================================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Bahagian kiri mengambil 2/3 ruang, kanan mengambil 1/3 */
+    gap: 25px;
+    margin-bottom: 25px;
+    align-items: start;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.card-title {
+    font-size: 16px;
+    color: #3e5246;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   5. LINE CHART VIEWPORT COMPONENTS (GRAF MOOD)
+   ========================================================================== */
+.chart-view-wrapper {
+    display: flex;
+    width: 100%;
+    height: 165px;
+    margin-top: 10px;
+    position: relative;
+}
+
+/* Paksi Y Menegak (Kiri) */
+.chart-y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 45px;
+    height: 135px; /* Selari dengan dimensi koordinat SVG */
+    font-size: 11px;
+    color: #a0b2a6;
+    font-weight: 600;
+    text-align: right;
+    padding-right: 12px;
+    user-select: none;
+}
+
+/* Kanvas Kontena Tempat SVG Diplot */
+#chartBarsContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+}
+
+/* ==========================================================================
+   6. DISTRIBUTION PROFILE COMPONENTS
+   ========================================================================== */
+.dist-item {
+    margin-bottom: 18px;
+}
+
+.dist-item:last-child {
+    margin-bottom: 0;
+}
+
+.dist-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #4a5d50;
+    font-weight: 500;
+}
+
+.progress-track-wrapper {
+    width: 100%;
+    height: 12px;
+    background-color: #eaeaea;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill-bar {
+    height: 100%;
+    background-color: #8fae9a;
+    border-radius: 6px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   7. RECENT HISTORY LOG LIST
+   ========================================================================== */
+.history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    background: #fcfdfc;
+    border: 1px solid #edf1ee;
+    padding: 15px 45px 15px 15px; /* Lebih ruang di kanan untuk elak teks bertindih dengan butang padam */
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    border-color: #d1ded6;
+    background: #f8faf9;
+}
+
+.history-meta strong {
+    font-size: 15px;
+    color: #3e5246;
+}
+
+.history-time {
+    font-size: 12px;
+    color: #a0b2a6;
+}
+
+.history-note {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #556b5c;
+    line-height: 1.4;
+}
+
+/* Ikon Tong Sampah */
+.delete-log-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%); /* Menetapkan kedudukan butang betul-betul di tengah-tengah tinggi kad */
+    background: transparent;
+    border: none;
+    color: #e57373;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.delete-log-btn:hover {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE DESIGN BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 992px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Tukar kepada 1 lajur penuh apabila skrin mengecil */
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+    .welcome-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .insight-card {
+        max-width: 100%;
+    }
+}

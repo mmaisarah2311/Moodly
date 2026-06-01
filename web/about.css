@@ -1,0 +1,219 @@
+/* ==========================================================================
+   1. UNIFORM RESET & SIDEBAR THEME (Sama Tema Dengan Dashboard)
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f3f6f4;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    background-color: #5d7e6c;
+    color: white;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%; /* WAJIB: Membenarkan menu memanjang ke bawah */
+    padding-bottom: 20px; /* Memberi ruang di bawah butang Logout */
+}
+
+.sidebar-menu li a {
+    color: #e2ebe5;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+/* Memaksa semua tapak ikon mempunyai kelebaran tegar yang sama */
+.sidebar-menu li a i {
+    font-size: 20px;
+    width: 24px; 
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gaya menyala HANYA untuk butang yang mempunyai kelas active */
+.sidebar-menu li.active a {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 600;
+}
+
+/* Gaya hover biasa */
+.sidebar-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* ==========================================================================
+   2. MAIN CONTENT & CONTAINER LAYOUT
+   ========================================================================== */
+.main-content {
+    flex: 1;
+    margin-left: 240px; /* Memberi ruang agar tidak dipotong oleh fixed sidebar */
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.story-container {
+    max-width: 750px;
+    width: 100%;
+}
+
+/* --- THE HEART STORY CARD --- */
+.story-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+    border-left: 5px solid #8fae9a;
+    margin-bottom: 30px;
+}
+
+.story-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #edf1ee;
+    padding-bottom: 15px;
+}
+
+.story-header .icon-box {
+    font-size: 32px;
+    color: #5d7e6c;
+    background: #edf1ee;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-header h1 {
+    font-size: 24px;
+    color: #3e5246;
+}
+
+.story-header p {
+    font-size: 13px;
+    color: #7a9485;
+    margin-top: 2px;
+}
+.sidebar-menu li a {
+    color: #e2ebe5;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+/* KOD BARU: Memaksa semua ikon mempunyai kotak lebar yang sama (24px) supaya teks selari */
+.sidebar-menu li a i {
+    font-size: 20px;
+    width: 24px; 
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- TEXT STYLING WITHIN STORY --- */
+.story-body p {
+    font-size: 15px;
+    color: #4a5d50;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.story-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Blok Petikan Menarik (Quote effect) */
+.personal-quote {
+    background-color: #f8faf9;
+    border-left: 3px solid #5d7e6c;
+    padding: 20px;
+    margin: 25px 0;
+    font-style: italic;
+    color: #3e5246;
+    border-radius: 0 12px 12px 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+/* --- SOLIDARITY CALLOUT FOOTER BOX --- */
+.solidarity-box {
+    background: #edf1ee;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    color: #4a5d50;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.solidarity-box strong {
+    color: #2e3d34;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.solidarity-box a {
+    color: #5d7e6c;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.solidarity-box a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   3. RESPONSIVE DESIGN INTERFACE
+   ========================================================================== */
+@media (max-width: 900px) {
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+}

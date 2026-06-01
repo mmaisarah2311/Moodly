@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moodly | Cute Calendar</title>
+  <link rel="icon" type="image/x-icon" href="Image/icon.jpg">
+  <link rel="stylesheet" href="calendar.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+   <div class="sidebar">
+        <div class="logo">
+            <i class='bx bx-leaf'></i> Moodly
+        </div>
+       <ul class="sidebar-menu">
+            <li class="nav-dash"><a href="dashboard.html"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+            <li class="nav-check"><a href="check-in.html"><i class='bx bxs-edit-location'></i> Daily Check-in</a></li>
+            <li class="nav-cal"><a href="calendar.html"><i class='bx bxs-calendar-event'></i> Calendar</a></li>
+            <li class="nav-res"><a href="resources.html"><i class='bx bxs-info-circle'></i> Resources</a></li>
+            <li class="nav-about"><a href="about.html"><i class='bx bxs-user'></i> About</a></li>
+            <li style="margin-top: auto; width: 100%;"><a href="login.html"><i class='bx bxs-log-out'></i> Logout</a></li>
+        </ul>
+    </div>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1>My Mood Journey ✨</h1>
+      <p>Pick a date below to revisit your past feelings and sweet reflections.</p>
+    </div>
+
+    <div class="calendar-layout-container">
+      
+      <div class="cute-calendar-card">
+        <div class="calendar-header">
+          <button id="prevMonthBtn" class="cute-nav-btn"><i class='bx bx-chevron-left'></i></button>
+          <h2 id="monthYearTitle">May 2026</h2>
+          <button id="nextMonthBtn" class="cute-nav-btn"><i class='bx bx-chevron-right'></i></button>
+        </div>
+
+        <div class="weekdays-header-row">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+
+        <div class="days-flex-grid" id="daysGrid"></div>
+      </div>
+
+      <div class="cute-memo-pad">
+        <div class="memo-tape"></div>
+        <h3><i class='bx bxs-heart'></i> Daily Memo</h3>
+        <div id="memoContent" class="memo-body">
+          <div class="empty-memo-state">
+            <p>🌸 No date selected yet! Tap any tracked date on your cute calendar to open this memo pad.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+  // Mengambil database emosi daripada localStorage
+  let moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
+  
+  // Menggunakan tarikh semasa secara dinamik (Boleh navigasi ke mana-mana bulan/tahun)
+  let activeDatePointer = new Date(); 
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  document.addEventListener("DOMContentLoaded", function() {
+    buildCuteCalendar();
+
+    // Fungsi butang bulan terdahulu
+    document.getElementById("prevMonthBtn").addEventListener("click", () => {
+      activeDatePointer.setMonth(activeDatePointer.getMonth() - 1);
+      buildCuteCalendar();
+    });
+
+    // Fungsi butang bulan seterusnya
+    document.getElementById("nextMonthBtn").addEventListener("click", () => {
+      activeDatePointer.setMonth(activeDatePointer.getMonth() + 1);
+      buildCuteCalendar();
+    });
+  });
+
+  function buildCuteCalendar() {
+    const daysContainer = document.getElementById("daysGrid");
+    const title = document.getElementById("monthYearTitle");
+    
+    // Kosongkan grid lama sebelum generate bulan baharu
+    daysContainer.innerHTML = "";
+    
+    const targetYear = activeDatePointer.getFullYear();
+    const targetMonth = activeDatePointer.getMonth();
+
+    // Kemas kini tajuk bulan di skrin
+    title.innerHTML = `✨ ${monthNames[targetMonth]} ${targetYear} ✨`;
+
+    // Cari hari pertama jatuh pada hari apa (0 = Ahad, 1 = Isnin, etc.)
+    const firstDayDayOfWeek = new Date(targetYear, targetMonth, 1).getDay();
+    // Cari jumlah hari dalam bulan tersebut
+    const totalDaysInMonth = new Date(targetYear, targetMonth + 1, 0).getDate();
+
+    // Reka kotak kosong (spacer) untuk hari sebelum tarikh 1 hari bulan
+    for (let i = 0; i < firstDayDayOfWeek; i++) {
+      const blankCell = document.createElement("div");
+      blankCell.className = "day-cell day-cell-spacer";
+      daysContainer.appendChild(blankCell);
+    }
+
+    // Generate kotak tarikh sebenar mengikut hari bulan
+    for (let coreDay = 1; coreDay <= totalDaysInMonth; coreDay++) {
+      const dateCell = document.createElement("div");
+      dateCell.className = "day-cell real-date-cell";
+
+      // Format padanan standard simpanan localStorage -> DD/MM/YYYY
+      const stringKeyDate = `${String(coreDay).padStart(2, '0')}/${String(targetMonth + 1).padStart(2, '0')}/${targetYear}`;
+      
+      // Semak jika ada data log untuk tarikh ini
+      const dayLogsMatched = moodlyData.filter(item => item.date === stringKeyDate);
+
+      // Masukkan nombor tarikh ke dalam kotak
+      dateCell.innerHTML = `<span class="date-number-badge">${coreDay}</span>`;
+
+      // Jika ada log emosi ditemui pada tarikh ini
+      if (dayLogsMatched.length > 0) {
+        dateCell.classList.add("cute-logged-day");
+        
+        // Paparkan emoji emosi yang terakhir di-log
+        const visualEmojiBadge = document.createElement("div");
+        visualEmojiBadge.className = "main-cell-emoji";
+        visualEmojiBadge.innerText = dayLogsMatched[dayLogsMatched.length - 1].mood || '📝';
+        dateCell.appendChild(visualEmojiBadge);
+
+        // Fungsi klik untuk buka memo journal di sebelah kanan
+        dateCell.addEventListener("click", () => {
+          clearSelectionHighlight();
+          dateCell.classList.add("cell-selected-active");
+          openMemoPadAnalysis(stringKeyDate, dayLogsMatched);
+        });
+      } else {
+        // Jika hari kosong tanpa sebarang log data
+        dateCell.addEventListener("click", () => {
+          clearSelectionHighlight();
+          dateCell.classList.add("cell-selected-active");
+          document.getElementById("memoContent").innerHTML = `
+            <div class="empty-memo-state">
+              <p class="neutral-alert-text">🍃 <b>Empty Day!</b></p>
+              <p style="font-size: 13px; color: #7a9485; font-weight: normal; margin-top: 8px;">
+                No active emotional log targets were updated on ${stringKeyDate}.
+              </p>
+            </div>
+          `;
+        });
+      }
+
+      daysContainer.appendChild(dateCell);
+    }
+  }
+
+  function clearSelectionHighlight() {
+    document.querySelectorAll(".real-date-cell").forEach(cell => {
+      cell.classList.remove("cell-selected-active");
+    });
+  }
+
+  function openMemoPadAnalysis(dateString, matches) {
+    const pad = document.getElementById("memoContent");
+    pad.innerHTML = `<h4 class="memo-date-banner"><i class='bx bxs-pin'></i> Journal: ${dateString}</h4>`;
+    
+    const listingScroller = document.createElement("div");
+    listingScroller.className = "memo-items-scroller";
+
+    matches.forEach(item => {
+      const itemNode = document.createElement("div");
+      itemNode.className = "memo-log-bubble";
+      itemNode.innerHTML = `
+        <div class="bubble-meta">
+          <span class="bubble-feeling-tag">${item.mood || '📝'} Feeling Log</span>
+          <span class="bubble-time-tag"><i class='bx bx-time'></i> ${item.time}</span>
+        </div>
+        <p class="bubble-text-notes">"${item.note || 'No custom notes attached to this entry.'}"</p>
+      `;
+      listingScroller.appendChild(itemNode);
+    });
+
+    pad.appendChild(listingScroller);
+  }
+</script>

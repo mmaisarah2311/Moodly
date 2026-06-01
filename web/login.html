@@ -1,0 +1,151 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker Login</title>
+    <link rel="icon" type="image/x-icon" href="Image/icon.jpg">
+    <link rel="stylesheet" href="login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="form-box login">
+        <form onsubmit="login(event)">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" id="username" placeholder="Username" required>
+                <i class="bx bx-user"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="password" placeholder="Password" required>
+                <i class="bx bx-lock"></i>
+            </div>
+            <div class="forgot-link">
+                <a href="#">Forgot Password?</a>
+            </div>
+            <p id="error" style="color:red; display:none; font-size: 13px; margin-bottom: 10px;">Wrong username or password</p>
+            <button type="submit" class="btn">Login</button>
+        </form>
+    </div>
+
+    <div class="form-box register">
+        <form onsubmit="register(event)">
+            <h1>Register</h1>
+            <div class="input-box">
+                <input type="text" id="regUsername" placeholder="Username" required>
+                <i class="bx bx-user"></i>
+            </div>
+            <div class="input-box">
+                <input type="email" placeholder="Email" required>
+                <i class="bx bx-envelope"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="regPassword" placeholder="Password" required>
+                <i class="bx bx-lock"></i>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+    </div>
+
+    <div class="toggle-box">
+        <div class="toggle-panel toggle-left">
+            <h1>Welcome!</h1>
+            <p>Don't have an account?</p>
+            <button type="button" class="btn register-btn">Register</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+            <h1>Welcome Back!</h1>
+            <p>Already have an account?</p>
+            <button type="button" class="btn login-btn">Login</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const container = document.querySelector('.container');
+    const registerBtn = document.querySelector('.register-btn');
+    const loginBtn = document.querySelector('.login-btn');
+
+    // Mengekalkan animasi slide sedia ada anda
+    registerBtn.addEventListener('click', () => {
+        container.classList.add('active');
+    });
+
+    loginBtn.addEventListener('click', () => {
+        container.classList.remove('active');
+    });
+
+    // ================= 1. LOGIK DAFTAR BARU (REGISTER) =================
+    function register(event) {
+        event.preventDefault();
+
+        const regUsername = document.getElementById("regUsername").value.trim();
+        const regPassword = document.getElementById("regPassword").value;
+
+        // Ambil senarai semua akaun yang pernah disimpan sebelum ini
+        let usersList = JSON.parse(localStorage.getItem("moodly_users")) || [];
+
+        // Semak jika username sudah pernah digunakan
+        const userExists = usersList.some(user => user.username.toLowerCase() === regUsername.toLowerCase());
+
+        if (userExists) {
+            alert("This username is already taken! Try another one.");
+            return;
+        }
+
+        // Masukkan data akaun baharu ke dalam array
+        usersList.push({ username: regUsername, password: regPassword });
+        
+        // Simpan semula array yang dikemas kini ke dalam localStorage
+        localStorage.setItem("moodly_users", JSON.stringify(usersList));
+
+        alert("Registration successful! Slid back to login to access your account.");
+        
+        // Reset borang register dan slide balik ke panel login secara automatik
+        event.target.reset();
+        container.classList.remove('active');
+    }
+
+    // ================= 2. LOGIK MASUK (LOGIN DINAMIK) =================
+    function login(event) {
+        event.preventDefault();
+
+        const usernameInput = document.getElementById("username").value.trim();
+        const passwordInput = document.getElementById("password").value;
+        const error = document.getElementById("error");
+
+        // Ambil data akaun-akaun berdaftar dari localStorage
+        let usersList = JSON.parse(localStorage.getItem("moodly_users")) || [];
+
+        // 🌟 KITA MASUKKAN SEKALI LOGIN LAMA ANDA SEBAGAI BACKUP DEFAULT ADMIN
+        if (usernameInput === "Masyi" && passwordInput === "1234") {
+            localStorage.setItem("moodly_users", JSON.stringify([{ username: "Masyi", password: "1234" }]));
+            localStorage.setItem("current_logged_user", usernameInput);
+            window.location.href = "dashboard.html";
+            return;
+        }
+
+        // Cari sama ada username & password yang ditaip sepadan dengan mana-mana pengguna berdaftar
+        const validUser = usersList.find(user => user.username.toLowerCase() === usernameInput.toLowerCase() && user.password === passwordInput);
+
+        if (validUser) {
+            // Simpan nama user yang sedang aktif untuk dipanggil dekat dashboard nanti
+            localStorage.setItem("current_logged_user", validUser.username);
+            
+            // Mengikut kod asal anda (menggunakan 'moodTrackerUser' jika diperlukan)
+            localStorage.setItem("moodTrackerUser", validUser.username); 
+            
+            error.style.display = "none";
+            window.location.href = "dashboard.html";
+        } else {
+            // Papar mesej ralat jika tidak sepadan
+            error.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+/* ==========================================
+   GLOBAL LAYOUT & RESET SYSTEM
+   ========================================== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+  background-color: #eef5f1;
+  color: #2f4f4f;
+  display: flex;
+  min-height: 100vh;
+}
+/* Kontena Utama Sidebar (Yang warna hijau sage) */
+.sidebar {
+    width: 240px;
+    background-color: #5d7e6c; /* Mengembalikan warna hijau dashboard */
+    color: white;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+/* Mengawal senarai menu ke bawah */
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Menetapkan susunan baris item menu */
+.sidebar-menu li {
+    width: 100%;
+}
+
+/* Gaya teks dan susunan ikon di dalam menu */
+.sidebar-menu li a {
+    color: #e2ebe5;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;         /* Jarak rapat antara ikon & teks (Sama macam dashboard) */
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Mengunci tapak saiz kotak ikon Boxicons */
+.sidebar-menu li a i {
+    font-size: 20px;
+    width: 24px;       /* Memaksa ikon duduk dalam kotak kecil, tak meluas jauh */
+    height: 24px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gaya hover biasa */
+.sidebar-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* Gaya menyala gelap HANYA untuk menu yang aktif pada halaman itu */
+.sidebar-menu li.active a {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 600;
+}
+/* ==========================================
+   2-COLUMN SPLIT CONTAINER WORKSPACE
+   ========================================== */
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  padding: 40px;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.page-header {
+  margin-bottom: 25px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #243e31;
+}
+
+.page-header p {
+  margin: 5px 0 0 0;
+  color: #61796c;
+  font-size: 14px;
+}
+
+/* Split Form Grid Layout */
+.checkin-grid-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr; /* Kiri Levers, Kanan Textareas/Selectors */
+  gap: 30px;
+  align-items: start;
+}
+
+/* Sections */
+.levers-column, .meta-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-block {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(140, 160, 150, 0.05);
+}
+
+.section-block h3 {
+  margin: 0 0 18px 0;
+  font-size: 15px;
+  color: #243e31;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #edf2ef;
+  padding-bottom: 8px;
+}
+
+/* ==========================================
+   DIAGNOSTIC LEVERS & SLIDERS (Berona)
+   ========================================== */
+.lever-item {
+  margin-bottom: 20px;
+  background: #fbfdfc;
+  border: 1px solid #edf2ef;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.lever-item:last-child {
+  margin-bottom: 0;
+}
+
+.lever-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.lever-meta label {
+  font-weight: 700;
+  font-size: 14px;
+  color: #334e40;
+}
+
+.badge-pill {
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Color palettes based on query category mapping */
+.c-mood .badge-pill { background-color: #8fa89b; }
+.c-phys .badge-pill { background-color: #7994b6; }
+.c-life .badge-pill { background-color: #cca464; }
+.c-cycle .badge-pill { background-color: #d97474; }
+
+.slider-bar {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e1ede6;
+  outline: none;
+  margin: 12px 0 6px 0;
+}
+
+.slider-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #5d7e6c;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+}
+
+.scale-guide {
+  display: flex;
+  justify-content: space-between;
+  color: #9bb0a4;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Period Custom Switch Radio Block */
+.period-switch-container {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.period-label {
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+}
+
+.period-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-radio {
+  display: block;
+  padding: 12px;
+  background: #f0f7f4;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #4a6657;
+  transition: all 0.2s;
+}
+
+.period-label input:checked ~ .custom-radio {
+  background: #ffebee;
+  border-color: #e57373;
+  color: #c62828;
+}
+
+.period-label:first-child input:checked ~ .custom-radio {
+  background: #e8f5e9;
+  border-color: #81c784;
+  color: #2e7d32;
+}
+
+/* ==========================================
+   CONTEXT SELECTORS & REFLECTION
+   ========================================== */
+.form-field {
+  margin-bottom: 16px;
+}
+
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  color: #334e40;
+  margin-bottom: 8px;
+}
+
+.select-box, .text-area-box {
+  width: 100%;
+  border: 1px solid #daeae1;
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  background-color: #fbfdfc;
+  color: #2f4f4f;
+}
+
+.select-box:focus, .text-area-box:focus {
+  border-color: #5d7e6c;
+  background-color: white;
+}
+
+.text-area-box {
+  height: 120px;
+  resize: none;
+}
+
+/* Primary Form Action Dispatcher */
+.action-dispatch-btn {
+  background-color: #5d7e6c;
+  color: white;
+  border: none;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(93, 126, 108, 0.15);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.action-dispatch-btn:hover {
+  background-color: #4a6657;
+  box-shadow: 0 6px 16px rgba(93, 126, 108, 0.25);
+}
