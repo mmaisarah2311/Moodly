@@ -217,7 +217,7 @@
     }
 
     function dispatchLogData() {
-        // Collect dropdown values
+      
         const primaryMoodSelect = document.getElementById("primaryMood").value;
         const moodEmoji = primaryMoodSelect.split(' ')[0];
         const moodLabel = primaryMoodSelect.split(' ')[1] || primaryMoodSelect;
@@ -240,12 +240,10 @@
         const environmentLoc = document.getElementById("environmentSetting").value;
         const noteRaw = document.getElementById("reflectionNote").value.trim();
 
-        // Process current Date objects
         const currentTimestamp = new Date();
         const finalDate = `${String(currentTimestamp.getDate()).padStart(2, '0')}/${String(currentTimestamp.getMonth() + 1).padStart(2, '0')}/${currentTimestamp.getFullYear()}`;
         const finalTime = currentTimestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-        // Compile comprehensive analytical report string block for display feeds
         const dynamicSummaryString = noteRaw 
             ? `${noteRaw} [Intensity: ${intensity}/5, Sleep: ${sleep}h, Energy: ${energy}, Diet: ${diet}, ${movement}, Meds: ${medication}, Period: ${period}, Event: ${eventTrigger}, Social: ${socialContext}, Area: ${environmentLoc}]`
             : `Logged status parameters: Base Emotion -> ${moodLabel} (${intensity}/5). Sleep logged at ${sleep} hours (${energy} energy level). Menstrual Cycle Active: ${period}. Social factor marked as: ${socialContext}.`;

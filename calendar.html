@@ -61,7 +61,24 @@
   </main>
 
   <script>
- 
+  const initialDataSetup = [
+    { date: "26/05/2026", mood: "😇", time: "05:23:08 PM", note: "FINALLY I AM 90% DONE WITH MY WEBSITE [Intensity: 5/5, Sleep: 6h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+    { date: "26/05/2026", mood: "🤯", time: "08:00:00 PM", note: "almost done [Intensity: 4/5, Sleep: 5h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+    { date: "27/05/2026", mood: "💖", time: "02:14:22 PM", note: "i am baking cheese garlic rolls, doing sacrifice for eid adha, and will meet my friend at a cafe today [Intensity: 5/5, Sleep: 2h, Energy: Balanced, Diet: Stable Diet, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
+    { date: "27/05/2026", mood: "🤯", time: "06:45:10 PM", note: "i am worried [Intensity: 1/5, Sleep: 3h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
+    { date: "29/05/2026", mood: "💖", time: "09:30:00 PM", note: "i met my friends and had fun [Intensity: 5/5, Sleep: 8h, Energy: Hyperactive, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Productive Peer Group, Area: Outdoors / Nature]" },
+    { date: "30/05/2026", mood: "⚡", time: "11:00:00 PM", note: "i am struggling to start working [Intensity: 5/5, Sleep: 1h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+    { date: "31/05/2026", mood: "🤯", time: "03:45:00 PM", note: "Reviewing layout constraints and text wrapping breaks across viewports." },
+    { date: "01/06/2026", mood: "🤯", time: "10:15:00 AM", note: "Stressed out with remaining documentation guidelines. Feeling the crunch." },
+    { date: "02/06/2026", mood: "😡", time: "04:30:22 PM", note: "Frustrated with minor alignment bugs that keep breaking on resizing." },
+    { date: "03/06/2026", mood: "🤯", time: "10:22:16 PM", note: "I AM STRESSED! CAN'T WAIT FOR THE WORK TO BE DONE!!! [Intensity: 5/5, Sleep: 4h, Energy: Sluggish, Diet: Stable Diet, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Home / Resting]" },
+    { date: "03/06/2026", mood: "😡", time: "10:22:49 PM", note: "AHHHHHH!!!! [Intensity: 5/5, Sleep: 5h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Campus / Library]" }
+  ];
+
+  if (!localStorage.getItem("moodly_data")) {
+    localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
+  }
+
   let moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
   
   let activeDatePointer = new Date(); 
@@ -74,13 +91,11 @@
   document.addEventListener("DOMContentLoaded", function() {
     buildCuteCalendar();
 
-    // Fungsi butang bulan terdahulu
     document.getElementById("prevMonthBtn").addEventListener("click", () => {
       activeDatePointer.setMonth(activeDatePointer.getMonth() - 1);
       buildCuteCalendar();
     });
 
-    // Fungsi butang bulan seterusnya
     document.getElementById("nextMonthBtn").addEventListener("click", () => {
       activeDatePointer.setMonth(activeDatePointer.getMonth() + 1);
       buildCuteCalendar();
@@ -91,59 +106,46 @@
     const daysContainer = document.getElementById("daysGrid");
     const title = document.getElementById("monthYearTitle");
     
-    // Kosongkan grid lama sebelum generate bulan baharu
     daysContainer.innerHTML = "";
     
     const targetYear = activeDatePointer.getFullYear();
     const targetMonth = activeDatePointer.getMonth();
 
-    // Kemas kini tajuk bulan di skrin
     title.innerHTML = `✨ ${monthNames[targetMonth]} ${targetYear} ✨`;
 
-    // Cari hari pertama jatuh pada hari apa (0 = Ahad, 1 = Isnin, etc.)
     const firstDayDayOfWeek = new Date(targetYear, targetMonth, 1).getDay();
-    // Cari jumlah hari dalam bulan tersebut
     const totalDaysInMonth = new Date(targetYear, targetMonth + 1, 0).getDate();
 
-    // Reka kotak kosong (spacer) untuk hari sebelum tarikh 1 hari bulan
     for (let i = 0; i < firstDayDayOfWeek; i++) {
       const blankCell = document.createElement("div");
       blankCell.className = "day-cell day-cell-spacer";
       daysContainer.appendChild(blankCell);
     }
 
-    // Generate kotak tarikh sebenar mengikut hari bulan
     for (let coreDay = 1; coreDay <= totalDaysInMonth; coreDay++) {
       const dateCell = document.createElement("div");
       dateCell.className = "day-cell real-date-cell";
 
-      // Format padanan standard simpanan localStorage -> DD/MM/YYYY
       const stringKeyDate = `${String(coreDay).padStart(2, '0')}/${String(targetMonth + 1).padStart(2, '0')}/${targetYear}`;
       
-      // Semak jika ada data log untuk tarikh ini
       const dayLogsMatched = moodlyData.filter(item => item.date === stringKeyDate);
 
-      // Masukkan nombor tarikh ke dalam kotak
       dateCell.innerHTML = `<span class="date-number-badge">${coreDay}</span>`;
 
-      // Jika ada log emosi ditemui pada tarikh ini
       if (dayLogsMatched.length > 0) {
         dateCell.classList.add("cute-logged-day");
         
-        // Paparkan emoji emosi yang terakhir di-log
         const visualEmojiBadge = document.createElement("div");
         visualEmojiBadge.className = "main-cell-emoji";
         visualEmojiBadge.innerText = dayLogsMatched[dayLogsMatched.length - 1].mood || '📝';
         dateCell.appendChild(visualEmojiBadge);
 
-        // Fungsi klik untuk buka memo journal di sebelah kanan
         dateCell.addEventListener("click", () => {
           clearSelectionHighlight();
           dateCell.classList.add("cell-selected-active");
           openMemoPadAnalysis(stringKeyDate, dayLogsMatched);
         });
       } else {
-        // Jika hari kosong tanpa sebarang log data
         dateCell.addEventListener("click", () => {
           clearSelectionHighlight();
           dateCell.classList.add("cell-selected-active");
@@ -191,3 +193,5 @@
     pad.appendChild(listingScroller);
   }
 </script>
+</body>
+</html>
