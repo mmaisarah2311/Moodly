@@ -1,6 +1,3 @@
-/* ==========================================================================
-   1. UNIFORM RESET & GLOBAL STYLES
-   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -28,6 +25,7 @@ body {
     left: 0;
     height: 100vh;
     z-index: 100;
+    transition: width 0.3s ease, padding 0.3s ease;
 }
 
 .sidebar-menu {
@@ -35,8 +33,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    height: 100%; /* WAJIB: Membenarkan menu memanjang ke bawah */
-    padding-bottom: 20px; /* Memberi ruang di bawah butang Logout */
+    height: 100%; 
+    padding-bottom: 20px; 
 }
 
 .sidebar-menu li a {
@@ -48,41 +46,37 @@ body {
     padding: 12px;
     border-radius: 8px;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
-/* Memaksa semua tapak ikon mempunyai kelebaran tegar yang sama */
 .sidebar-menu li a i {
     font-size: 20px;
     width: 24px; 
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
 }
 
-/* Gaya menyala HANYA untuk butang yang mempunyai kelas active */
 .sidebar-menu li.active a {
     background-color: rgba(255, 255, 255, 0.15);
     color: white;
     font-weight: 600;
 }
 
-/* Gaya hover biasa */
 .sidebar-menu li a:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
 }
 
-/* ==========================================================================
-   3. MAIN CONTENT CONTAINER
-   ========================================================================== */
 .main-content {
     flex: 1;
     padding: 30px;
-    margin-left: 240px; /* Memberi ruang agar tidak ditindih fixed sidebar */
+    margin-left: 240px; 
     overflow-y: auto;
+    transition: margin-left 0.3s ease;
 }
 
-/* --- WELCOME BANNER --- */
 .welcome-banner {
     background-color: #5d7e6c;
     color: white;
@@ -119,12 +113,9 @@ body {
     font-size: 13px;
 }
 
-/* ==========================================================================
-   4. DASHBOARD GRID & CARDS SYSTEM
-   ========================================================================== */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Bahagian kiri mengambil 2/3 ruang, kanan mengambil 1/3 */
+    grid-template-columns: 2fr 1fr; 
     gap: 25px;
     margin-bottom: 25px;
     align-items: start;
@@ -147,9 +138,6 @@ body {
     font-weight: 600;
 }
 
-/* ==========================================================================
-   5. LINE CHART VIEWPORT COMPONENTS (GRAF MOOD)
-   ========================================================================== */
 .chart-view-wrapper {
     display: flex;
     width: 100%;
@@ -158,13 +146,12 @@ body {
     position: relative;
 }
 
-/* Paksi Y Menegak (Kiri) */
 .chart-y-axis {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 45px;
-    height: 135px; /* Selari dengan dimensi koordinat SVG */
+    height: 135px; 
     font-size: 11px;
     color: #a0b2a6;
     font-weight: 600;
@@ -173,7 +160,6 @@ body {
     user-select: none;
 }
 
-/* Kanvas Kontena Tempat SVG Diplot */
 #chartBarsContainer {
     flex: 1;
     display: flex;
@@ -182,9 +168,6 @@ body {
     height: 100%;
 }
 
-/* ==========================================================================
-   6. DISTRIBUTION PROFILE COMPONENTS
-   ========================================================================== */
 .dist-item {
     margin-bottom: 18px;
 }
@@ -217,9 +200,6 @@ body {
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ==========================================================================
-   7. RECENT HISTORY LOG LIST
-   ========================================================================== */
 .history-list {
     list-style: none;
     display: flex;
@@ -230,7 +210,7 @@ body {
 .history-item {
     background: #fcfdfc;
     border: 1px solid #edf1ee;
-    padding: 15px 45px 15px 15px; /* Lebih ruang di kanan untuk elak teks bertindih dengan butang padam */
+    padding: 15px 45px 15px 15px; 
     border-radius: 12px;
     position: relative;
     transition: all 0.2s ease;
@@ -258,12 +238,11 @@ body {
     line-height: 1.4;
 }
 
-/* Ikon Tong Sampah */
 .delete-log-btn {
     position: absolute;
     right: 15px;
     top: 50%;
-    transform: translateY(-50%); /* Menetapkan kedudukan butang betul-betul di tengah-tengah tinggi kad */
+    transform: translateY(-50%);
     background: transparent;
     border: none;
     color: #e57373;
@@ -282,35 +261,84 @@ body {
     color: #c62828;
 }
 
-/* ==========================================================================
-   8. RESPONSIVE DESIGN BREAKPOINTS
-   ========================================================================== */
 @media (max-width: 992px) {
     .dashboard-grid {
-        grid-template-columns: 1fr; /* Tukar kepada 1 lajur penuh apabila skrin mengecil */
+        grid-template-columns: 1fr; 
     }
 }
 
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-    }
+@media (max-width: 850px) {
     .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        padding: 15px;
+        width: 70px !important;
+        padding: 25px 10px !important;
+        align-items: center !important;
+        overflow: hidden !important;
     }
+
+    .sidebar .logo,
+    .sidebar span,
+    .sidebar p,
+    .sidebar h1,
+    .sidebar h2,
+    .sidebar h3,
+    .sidebar font {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+    .sidebar-menu {
+        width: 100% !important;
+        align-items: center !important;
+    }
+
+    .sidebar-menu li {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    .sidebar-menu li a {
+        justify-content: center !important;
+        padding: 12px 0 !important;
+        gap: 0 !important;
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 0 !important; 
+        color: transparent !important;
+    }
+
+    .sidebar-menu li a i {
+        font-size: 22px !important;
+        color: #e2ebe5 !important;
+        width: auto !important;
+        display: inline-flex !important;
+    }
+
+    .sidebar-menu li.active a i {
+        color: white !important;
+    }
+
     .main-content {
-        margin-left: 0;
-        padding: 15px;
+        margin-left: 70px !important;
+        padding: 15px !important;
+        width: calc(100% - 70px) !important;
     }
+
     .welcome-banner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+        padding: 20px !important;
     }
+
     .insight-card {
-        max-width: 100%;
+        max-width: 100% !important;
+    }
+
+    .welcome-text h1 {
+        font-size: 20px !important;
     }
 }

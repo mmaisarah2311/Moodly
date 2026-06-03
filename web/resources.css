@@ -1,18 +1,18 @@
- * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        body {
-            background-color: #f3f6f4;
-            color: #333;
-            display: flex;
-            min-height: 100vh;
-        }
+body {
+    background-color: #f3f6f4;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
 
-        .sidebar {
+.sidebar {
     width: 240px;
     background-color: #5d7e6c;
     color: white;
@@ -25,6 +25,7 @@
     left: 0;
     height: 100vh;
     z-index: 100;
+    transition: width 0.3s ease, padding 0.3s ease;
 }
 
 .sidebar-menu {
@@ -32,8 +33,14 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    height: 100%; /* WAJIB: Membenarkan menu memanjang ke bawah */
-    padding-bottom: 20px; /* Memberi ruang di bawah butang Logout */
+    height: 100%; 
+    padding-bottom: 20px; 
+    margin: 0;
+    padding-left: 0;
+}
+
+.sidebar-menu li {
+    width: 100%;
 }
 
 .sidebar-menu li a {
@@ -45,235 +52,307 @@
     padding: 12px;
     border-radius: 8px;
     transition: all 0.2s ease;
+    width: 100%;
+    white-space: nowrap;
 }
 
-/* Memaksa semua tapak ikon mempunyai kelebaran tegar yang sama */
 .sidebar-menu li a i {
     font-size: 20px;
     width: 24px; 
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
 }
 
-/* Gaya menyala HANYA untuk butang yang mempunyai kelas active */
 .sidebar-menu li.active a {
     background-color: rgba(255, 255, 255, 0.15);
     color: white;
     font-weight: 600;
 }
 
-/* Gaya hover biasa */
 .sidebar-menu li a:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
 }
-        /* ==========================================================================
-           2. MAIN CONTENT LAYOUT
-           ========================================================================== */
-        .main-content {
-            flex: 1;
-            margin-left: 240px; /* Aliran kandungan selepas lebar fixed sidebar */
-            padding: 0 0 40px 0; /* Pad padding bawah sahaja, atas diisi banner */
-        }
 
-        /* --- EMERGENCY CRISIS BANNER (Inspirasi eMoods) --- */
-        .crisis-banner {
-            background-color: #f5b041; /* Warna jingga amaran lembut premium */
-            color: #513600;
-            padding: 25px 40px;
-            font-size: 15px;
-            font-weight: 600;
-            line-height: 1.6;
-            text-align: center;
-            border-bottom: 4px solid #e59866;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+.main-content {
+    flex: 1;
+    margin-left: 240px; 
+    padding: 0 0 40px 0; 
+    min-width: 0;
+    transition: margin-left 0.3s ease;
+}
 
-        .crisis-banner i {
-            font-size: 24px;
-            color: #b03a2e;
-        }
+.crisis-banner {
+    background-color: #f5b041; 
+    color: #513600;
+    padding: 25px 40px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    text-align: center;
+    border-bottom: 4px solid #e59866;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
 
-        /* --- CONTENT CONTAINER --- */
-        .resources-wrapper {
-            padding: 35px 40px;
-        }
+.crisis-banner i {
+    font-size: 24px;
+    color: #b03a2e;
+}
 
-        .section-intro {
-            margin-bottom: 30px;
-        }
+.resources-wrapper {
+    padding: 35px 40px;
+}
 
-        .section-intro h2 {
-            font-size: 24px;
-            color: #3e5246;
-            margin-bottom: 6px;
-        }
+.section-intro {
+    margin-bottom: 30px;
+}
 
-        .section-intro p {
-            font-size: 14px;
-            color: #7a9485;
-        }
+.section-intro h2 {
+    font-size: 24px;
+    color: #3e5246;
+    margin-bottom: 6px;
+}
 
-        /* ==========================================================================
-           3. THREE-COLUMN ASSESSMENT & HELPLINES SECTIONS (Grid eMoods)
-           ========================================================================== */
-        .resources-row-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Pecahan 3 lajur seimbang */
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+.section-intro p {
+    font-size: 14px;
+    color: #7a9485;
+}
 
-        .resource-card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
-            border-top: 5px solid #8fae9a; /* Garis hiasan atas kad */
-        }
+.resources-row-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 25px;
+    margin-bottom: 40px;
+}
 
-        .resource-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(93, 126, 108, 0.1);
-        }
+.resource-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    border-top: 5px solid #8fae9a; 
+}
 
-        /* Pengkhususan warna sempadan kad berbeza mengikut kategori */
-        .card-assessment { border-top-color: #5d7e6c; }
-        .card-hotline { border-top-color: #cd6155; }
+.resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(93, 126, 108, 0.1);
+}
 
-        .card-icon {
-            font-size: 32px;
-            margin-bottom: 15px;
-            color: #5d7e6c;
-            background: #edf1ee;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.card-assessment { border-top-color: #5d7e6c; }
+.card-hotline { border-top-color: #cd6155; }
 
-        .card-hotline .card-icon {
-            color: #cd6155;
-            background: #fadbd8;
-        }
+.card-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #5d7e6c;
+    background: #edf1ee;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .resource-card h3 {
-            font-size: 16px;
-            color: #2e3d34;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
+.card-hotline .card-icon {
+    color: #cd6155;
+    background: #fadbd8;
+}
 
-        .resource-card p {
-            font-size: 13.5px;
-            color: #627568;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            flex: 1; /* Menolak butang ke bawah supaya selari tinggi */
-        }
+.resource-card h3 {
+    font-size: 16px;
+    color: #2e3d34;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
 
-        /* Butang Tindakan Elegan */
-        .action-link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-size: 13.5px;
-            font-weight: 600;
-            border-radius: 8px;
-            width: 100%;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
+.resource-card p {
+    font-size: 13.5px;
+    color: #627568;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    flex: 1; 
+}
 
-        .btn-green {
-            background-color: #5d7e6c;
-            color: white;
-        }
-        .btn-green:hover { background-color: #4a6556; }
+.action-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100%;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
 
-        .btn-red {
-            background-color: #cd6155;
-            color: white;
-        }
-        .btn-red:hover { background-color: #b03a2e; }
+.btn-green {
+    background-color: #5d7e6c;
+    color: white;
+}
+.btn-green:hover { background-color: #4a6556; }
 
-        /* ==========================================================================
-           4. EXTRA ADDITIONAL RESOURCES LAYER (Bottom Table/List)
-           ========================================================================== */
-        .other-resources-box {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
+.btn-red {
+    background-color: #cd6155;
+    color: white;
+}
+.btn-red:hover { background-color: #b03a2e; }
 
-        .other-resources-box h3 {
-            font-size: 16px;
-            color: #3e5246;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #edf1ee;
-            padding-bottom: 10px;
-        }
+.other-resources-box {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
 
-        .table-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 5px;
-            border-bottom: 1px solid #f4f6f5;
-            font-size: 13.5px;
-        }
+.other-resources-box h3 {
+    font-size: 16px;
+    color: #3e5246;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #edf1ee;
+    padding-bottom: 10px;
+}
 
-        .table-row:last-child {
-            border-bottom: none;
-        }
+.table-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5px;
+    border-bottom: 1px solid #f4f6f5;
+    font-size: 13.5px;
+}
 
-        .table-row .title-side {
-            font-weight: 600;
-            color: #4a5d50;
-        }
+.table-row:last-child {
+    border-bottom: none;
+}
 
-        .table-row .desc-side {
-            color: #7a8c80;
-            margin-left: 15px;
-            margin-right: auto;
-        }
+.table-row .title-side {
+    font-weight: 600;
+    color: #4a5d50;
+}
 
-        .table-row .action-side a {
-            color: #5d7e6c;
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
+.table-row .desc-side {
+    color: #7a8c80;
+    margin-left: 15px;
+    margin-right: auto;
+}
 
-        .table-row .action-side a:hover {
-            text-decoration: underline;
-        }
+.table-row .action-side a {
+    color: #5d7e6c;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
 
-        /* ==========================================================================
-           5. RESPONSIVE DESIGN
-           ========================================================================== */
-        @media (max-width: 1024px) {
-            .resources-row-grid {
-                grid-template-columns: 1fr; /* Menjadi satu lajur menegak pada skrin kecil */
-            }
-            .main-content { margin-left: 0; }
-            .sidebar { position: relative; width: 100%; height: auto; }
-        }
+.table-row .action-side a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+    .resources-row-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .sidebar {
+        width: 70px !important;
+        padding: 25px 10px !important;
+        align-items: center !important;
+        overflow: hidden !important;
+    }
+
+    .sidebar-menu {
+        width: 100% !important;
+        align-items: center !important;
+    }
+
+    .sidebar-menu li {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    .sidebar-menu li a {
+        justify-content: center !important;
+        padding: 12px 0 !important;
+        gap: 0 !important;
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 0 !important; 
+        color: transparent !important;
+    }
+
+    .sidebar-menu li a i {
+        font-size: 22px !important;
+        color: #e2ebe5 !important;
+        width: auto !important;
+        display: inline-flex !important;
+    }
+
+    .sidebar-menu li.active a i {
+        color: white !important;
+    }
+
+    .sidebar .logo,
+    .sidebar span,
+    .sidebar p,
+    .sidebar h1,
+    .sidebar h2,
+    .sidebar h3,
+    .sidebar font {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+
+    .main-content { 
+        margin-left: 70px !important; 
+        width: calc(100% - 70px) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .resources-row-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+    .crisis-banner {
+        padding: 20px !important;
+        font-size: 13px !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .resources-wrapper {
+        padding: 25px 20px !important;
+    }
+
+    .table-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+    }
+
+    .table-row .desc-side {
+        margin-left: 0 !important;
+        margin-bottom: 4px !important;
+    }
+}
