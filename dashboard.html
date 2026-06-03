@@ -107,6 +107,7 @@
           return day + "/" + month + "/" + year;
       }
 
+      // KOD INI HANYA AKAN DIGUNAKAN JIKA LOCALSTORAGE MASIH KOSONG
       const initialDataSetup = [
         { date: getRelativeDateString(7), mood: "😇", time: "05:23:08 PM", note: "FINALLY I AM 90% DONE WITH MY WEBSITE [Intensity: 5/5, Sleep: 6h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
         { date: getRelativeDateString(7), mood: "🤯", time: "08:00:00 PM", note: "almost done [Intensity: 4/5, Sleep: 5h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
@@ -122,7 +123,10 @@
       ];
 
       document.addEventListener("DOMContentLoaded", function() {
-          localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
+          // Hanya set item jika belum pernah ada data disimpan sebelumnya
+          if (!localStorage.getItem("moodly_data")) {
+              localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
+          }
           renderDashboardData();
       });
 

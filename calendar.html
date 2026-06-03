@@ -84,7 +84,10 @@
     { date: getRelativeDateString(0), mood: "😡", time: "10:22:49 PM", note: "AHHHHHH!!!! [Intensity: 5/5, Sleep: 5h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Campus / Library]" }
   ];
 
-  localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
+  // Hanya set data dummy jika localStorage benar-benar kosong
+  if (!localStorage.getItem("moodly_data")) {
+      localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
+  }
 
   let moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
   let activeDatePointer = new Date(); 
@@ -95,6 +98,8 @@
   ];
 
   document.addEventListener("DOMContentLoaded", function() {
+    // Pastikan memuatkan data terkini dari localStorage sejurus selepas halaman dibuka
+    moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
     buildCuteCalendar();
 
     document.getElementById("prevMonthBtn").addEventListener("click", () => {
