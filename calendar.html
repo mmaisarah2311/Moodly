@@ -36,8 +36,7 @@
       <div class="cute-calendar-card">
         <div class="calendar-header">
           <button id="prevMonthBtn" class="cute-nav-btn"><i class='bx bx-chevron-left'></i></button>
-          <h2 id="monthYearTitle">May 2026</h2>
-          <button id="nextMonthBtn" class="cute-nav-btn"><i class='bx bx-chevron-right'></i></button>
+          <h2 id="monthYearTitle"></h2>
         </div>
 
         <div class="weekdays-header-row">
@@ -61,26 +60,32 @@
   </main>
 
   <script>
-  const initialDataSetup = [
-    { date: "26/05/2026", mood: "😇", time: "05:23:08 PM", note: "FINALLY I AM 90% DONE WITH MY WEBSITE [Intensity: 5/5, Sleep: 6h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
-    { date: "26/05/2026", mood: "🤯", time: "08:00:00 PM", note: "almost done [Intensity: 4/5, Sleep: 5h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
-    { date: "27/05/2026", mood: "💖", time: "02:14:22 PM", note: "i am baking cheese garlic rolls, doing sacrifice for eid adha, and will meet my friend at a cafe today [Intensity: 5/5, Sleep: 2h, Energy: Balanced, Diet: Stable Diet, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
-    { date: "27/05/2026", mood: "🤯", time: "06:45:10 PM", note: "i am worried [Intensity: 1/5, Sleep: 3h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
-    { date: "29/05/2026", mood: "💖", time: "09:30:00 PM", note: "i met my friends and had fun [Intensity: 5/5, Sleep: 8h, Energy: Hyperactive, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Productive Peer Group, Area: Outdoors / Nature]" },
-    { date: "30/05/2026", mood: "⚡", time: "11:00:00 PM", note: "i am struggling to start working [Intensity: 5/5, Sleep: 1h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
-    { date: "31/05/2026", mood: "🤯", time: "03:45:00 PM", note: "Reviewing layout constraints and text wrapping breaks across viewports." },
-    { date: "01/06/2026", mood: "🤯", time: "10:15:00 AM", note: "Stressed out with remaining documentation guidelines. Feeling the crunch." },
-    { date: "02/06/2026", mood: "😡", time: "04:30:22 PM", note: "Frustrated with minor alignment bugs that keep breaking on resizing." },
-    { date: "03/06/2026", mood: "🤯", time: "10:22:16 PM", note: "I AM STRESSED! CAN'T WAIT FOR THE WORK TO BE DONE!!! [Intensity: 5/5, Sleep: 4h, Energy: Sluggish, Diet: Stable Diet, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Home / Resting]" },
-    { date: "03/06/2026", mood: "😡", time: "10:22:49 PM", note: "AHHHHHH!!!! [Intensity: 5/5, Sleep: 5h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Campus / Library]" }
-  ];
-
-  if (!localStorage.getItem("moodly_data")) {
-    localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
+  function getRelativeDateString(daysAgo) {
+      var d = new Date();
+      d.setDate(d.getDate() - daysAgo);
+      var day = String(d.getDate()).padStart(2, '0');
+      var month = String(d.getMonth() + 1).padStart(2, '0');
+      var year = d.getFullYear();
+      return day + "/" + month + "/" + year;
   }
 
+  const initialDataSetup = [
+    { date: getRelativeDateString(7), mood: "😇", time: "05:23:08 PM", note: "FINALLY I AM 90% DONE WITH MY WEBSITE [Intensity: 5/5, Sleep: 6h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+    { date: getRelativeDateString(7), mood: "🤯", time: "08:00:00 PM", note: "almost done [Intensity: 4/5, Sleep: 5h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+    { date: getRelativeDateString(6), mood: "💖", time: "02:14:22 PM", note: "i am baking cheese garlic rolls, doing sacrifice for eid adha, and will meet my friend at a cafe today [Intensity: 5/5, Sleep: 2h, Energy: Balanced, Diet: Stable Diet, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
+    { date: getRelativeDateString(6), mood: "🤯", time: "06:45:10 PM", note: "i am worried [Intensity: 1/5, Sleep: 3h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
+    { date: getRelativeDateString(5), mood: "💖", time: "09:30:00 PM", note: "i met my friends and had fun [Intensity: 5/5, Sleep: 8h, Energy: Hyperactive, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Productive Peer Group, Area: Outdoors / Nature]" },
+    { date: getRelativeDateString(4), mood: "⚡", time: "11:00:00 PM", note: "i am struggling to start working [Intensity: 5/5, Sleep: 1h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+    { date: getRelativeDateString(3), mood: "🤯", time: "03:45:00 PM", note: "Reviewing layout constraints and text wrapping breaks across viewports." },
+    { date: getRelativeDateString(2), mood: "🤯", time: "10:15:00 AM", note: "Stressed out with remaining documentation guidelines. Feeling the crunch." },
+    { date: getRelativeDateString(1), mood: "😡", time: "04:30:22 PM", note: "Frustrated with minor alignment bugs that keep breaking on resizing." },
+    { date: getRelativeDateString(0), mood: "🤯", time: "10:22:16 PM", note: "I AM STRESSED! CAN'T WAIT FOR THE WORK TO BE DONE!!! [Intensity: 5/5, Sleep: 4h, Energy: Sluggish, Diet: Stable Diet, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Home / Resting]" },
+    { date: getRelativeDateString(0), mood: "😡", time: "10:22:49 PM", note: "AHHHHHH!!!! [Intensity: 5/5, Sleep: 5h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Campus / Library]" }
+  ];
+
+  localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
+
   let moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
-  
   let activeDatePointer = new Date(); 
 
   const monthNames = [
@@ -127,7 +132,6 @@
       dateCell.className = "day-cell real-date-cell";
 
       const stringKeyDate = `${String(coreDay).padStart(2, '0')}/${String(targetMonth + 1).padStart(2, '0')}/${targetYear}`;
-      
       const dayLogsMatched = moodlyData.filter(item => item.date === stringKeyDate);
 
       dateCell.innerHTML = `<span class="date-number-badge">${coreDay}</span>`;

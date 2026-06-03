@@ -98,37 +98,40 @@
     </div>
 
     <script>
-      // Tatasusunan data yang diselaraskan dengan calendar.html
+      function getRelativeDateString(daysAgo) {
+          var d = new Date();
+          d.setDate(d.getDate() - daysAgo);
+          var day = String(d.getDate()).padStart(2, '0');
+          var month = String(d.getMonth() + 1).padStart(2, '0');
+          var year = d.getFullYear();
+          return day + "/" + month + "/" + year;
+      }
+
       const initialDataSetup = [
-        { date: "26/05/2026", mood: "😇", time: "05:23:08 PM", note: "FINALLY I AM 90% DONE WITH MY WEBSITE [Intensity: 5/5, Sleep: 6h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
-        { date: "26/05/2026", mood: "🤯", time: "08:00:00 PM", note: "almost done [Intensity: 4/5, Sleep: 5h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
-        { date: "27/05/2026", mood: "💖", time: "02:14:22 PM", note: "i am baking cheese garlic rolls, doing sacrifice for eid adha, and will meet my friend at a cafe today [Intensity: 5/5, Sleep: 2h, Energy: Balanced, Diet: Stable Diet, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
-        { date: "27/05/2026", mood: "🤯", time: "06:45:10 PM", note: "i am worried [Intensity: 1/5, Sleep: 3h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
-        { date: "29/05/2026", mood: "💖", time: "09:30:00 PM", note: "i met my friends and had fun [Intensity: 5/5, Sleep: 8h, Energy: Hyperactive, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Productive Peer Group, Area: Outdoors / Nature]" },
-        { date: "30/05/2026", mood: "⚡", time: "11:00:00 PM", note: "i am struggling to start working [Intensity: 5/5, Sleep: 1h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
-        { date: "31/05/2026", mood: "🤯", time: "03:45:00 PM", note: "Reviewing layout constraints and text wrapping breaks across viewports." },
-        { date: "01/06/2026", mood: "🤯", time: "10:15:00 AM", note: "Stressed out with remaining documentation guidelines. Feeling the crunch." },
-        { date: "02/06/2026", mood: "😡", time: "04:30:22 PM", note: "Frustrated with minor alignment bugs that keep breaking on resizing." },
-        { date: "03/06/2026", mood: "🤯", time: "10:22:16 PM", note: "I AM STRESSED! CAN'T WAIT FOR THE WORK TO BE DONE!!! [Intensity: 5/5, Sleep: 4h, Energy: Sluggish, Diet: Stable Diet, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Home / Resting]" },
-        { date: "03/06/2026", mood: "😡", time: "10:22:49 PM", note: "AHHHHHH!!!! [Intensity: 5/5, Sleep: 5h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Campus / Library]" }
+        { date: getRelativeDateString(7), mood: "😇", time: "05:23:08 PM", note: "FINALLY I AM 90% DONE WITH MY WEBSITE [Intensity: 5/5, Sleep: 6h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+        { date: getRelativeDateString(7), mood: "🤯", time: "08:00:00 PM", note: "almost done [Intensity: 4/5, Sleep: 5h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+        { date: getRelativeDateString(6), mood: "💖", time: "02:14:22 PM", note: "i am baking cheese garlic rolls, doing sacrifice for eid adha, and will meet my friend at a cafe today [Intensity: 5/5, Sleep: 2h, Energy: Balanced, Diet: Stable Diet, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
+        { date: getRelativeDateString(6), mood: "🤯", time: "06:45:10 PM", note: "i am worried [Intensity: 1/5, Sleep: 3h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Family Engagement, Area: Home / Resting]" },
+        { date: getRelativeDateString(5), mood: "💖", time: "09:30:00 PM", note: "i met my friends and had fun [Intensity: 5/5, Sleep: 8h, Energy: Hyperactive, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Social Gathering, Social: Productive Peer Group, Area: Outdoors / Nature]" },
+        { date: getRelativeDateString(4), mood: "⚡", time: "11:00:00 PM", note: "i am struggling to start working [Intensity: 5/5, Sleep: 1h, Energy: Sluggish, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: Yes, Event: Academic Workload, Social: Isolated / Solitude, Area: Home / Resting]" },
+        { date: getRelativeDateString(3), mood: "🤯", time: "03:45:00 PM", note: "Reviewing layout constraints and text wrapping breaks across viewports." },
+        { date: getRelativeDateString(2), mood: "🤯", time: "10:15:00 AM", note: "Stressed out with remaining documentation guidelines. Feeling the crunch." },
+        { date: getRelativeDateString(1), mood: "😡", time: "04:30:22 PM", note: "Frustrated with minor alignment bugs that keep breaking on resizing." },
+        { date: getRelativeDateString(0), mood: "🤯", time: "10:22:16 PM", note: "I AM STRESSED! CAN'T WAIT FOR THE WORK TO BE DONE!!! [Intensity: 5/5, Sleep: 4h, Energy: Sluggish, Diet: Stable Diet, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Home / Resting]" },
+        { date: getRelativeDateString(0), mood: "😡", time: "10:22:49 PM", note: "AHHHHHH!!!! [Intensity: 5/5, Sleep: 5h, Energy: Balanced, Diet: Poor/Skipped, No Exercise, Meds: Missed, Period: No, Event: Academic Workload, Social: Productive Peer Group, Area: Campus / Library]" }
       ];
 
       document.addEventListener("DOMContentLoaded", function() {
-          // Suntik data tiruan jika peranti pensyarah belum mempunyai data sedia ada
-          if (!localStorage.getItem("moodly_data")) {
-              localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
-          }
+          localStorage.setItem("moodly_data", JSON.stringify(initialDataSetup));
           renderDashboardData();
       });
 
       function renderDashboardData() {
           var moodlyData = JSON.parse(localStorage.getItem("moodly_data")) || [];
-
           var totalLogsElement = document.getElementById("totalLogs");
           if (totalLogsElement) {
               totalLogsElement.innerText = moodlyData.length;
           }
-
           calculateAndShowStreak(moodlyData);
           generateLineChart(moodlyData);
           generateDistributionProfile(moodlyData);
@@ -139,12 +142,10 @@
       function calculateAndShowStreak(moodlyData) {
           var streakElement = document.getElementById("streakCount");
           if (!streakElement) return;
-
           if (moodlyData.length === 0) {
               streakElement.innerText = "0";
               return;
           }
-
           var uniqueDates = [];
           for (var i = 0; i < moodlyData.length; i++) {
               var dStr = moodlyData[i].date.split(' ')[0];
@@ -152,29 +153,23 @@
                   uniqueDates.push(dStr);
               }
           }
-
           var sortedTimestamps = uniqueDates.map(function(dateStr) {
               var parts = dateStr.split('/');
               var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
               return new Date(formattedDate).getTime();
           }).sort(function(a, b) { return b - a; });
-
           var today = new Date();
           var todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
           var oneDayMs = 24 * 60 * 60 * 1000;
-
           var latestLogTimestamp = sortedTimestamps[0];
           var diffDaysFromToday = Math.round((todayMidnight - latestLogTimestamp) / oneDayMs);
-
           var streak = 0;
           if (diffDaysFromToday <= 1) {
               var currentCheckTimestamp = latestLogTimestamp;
               streak = 1;
-
               for (var j = 1; j < sortedTimestamps.length; j++) {
                   var nextTargetTimestamp = sortedTimestamps[j];
                   var dayGap = Math.round((currentCheckTimestamp - nextTargetTimestamp) / oneDayMs);
-
                   if (dayGap === 1) {
                       streak++;
                       currentCheckTimestamp = nextTargetTimestamp;
@@ -183,31 +178,24 @@
                   }
               }
           } else {
-              // Jika data terakhir adalah dalam lingkungan julat demo, kekalkan visual streak 6 hari yang realistik
               streak = uniqueDates.length >= 6 ? 6 : uniqueDates.length;
           }
-
           streakElement.innerText = streak;
       }
 
       function generateLineChart(moodlyData) {
           var chartContainer = document.getElementById("chartBarsContainer");
           if (!chartContainer) return;
-
           chartContainer.innerHTML = "";
-
           if (moodlyData.length === 0) {
               chartContainer.innerHTML = "<p style='color:#a3b899; font-size:13px; padding: 20px; text-align:center; width:100%;'>No graph data available.</p>";
               return;
           }
-
           var lastLogs = moodlyData.slice(-7);
           var points = [];
           var widthBetweenPoints = lastLogs.length > 1 ? 240 / (lastLogs.length - 1) : 0;
-
           lastLogs.forEach(function(item, index) {
               var yCoord = 90; 
-
               if (item.note && item.note.includes("Intensity:")) {
                   var matchedIntensity = item.note.match(/Intensity:\s*(\d+)/);
                   if (matchedIntensity) {
@@ -223,11 +211,9 @@
               } else if (item.mood === "🤯" || item.mood === "⚡" || item.mood === "😡") {
                   yCoord = 85;
               }
-
               var xCoord = 15 + (index * widthBetweenPoints);
               points.push({ x: xCoord, y: yCoord, raw: item });
           });
-
           var pathDefinition = "";
           points.forEach(function(p, idx) {
               if (idx === 0) {
@@ -236,44 +222,36 @@
                   pathDefinition += " L " + p.x + " " + p.y;
               }
           });
-
           var svgHtml = '<svg viewBox="0 0 280 140" style="width: 100%; height: 135px; overflow: visible;">' +
                         '<path d="' + pathDefinition + '" fill="none" stroke="#a3b899" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>' +
                         '<path d="' + pathDefinition + '" fill="none" stroke="#5d7e6c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
-
           points.forEach(function(p) {
               var dayTitle = p.raw.mood ? p.raw.mood : "Log";
               svgHtml += '<circle cx="' + p.x + '" cy="' + p.y + '" r="5" fill="#ffffff" stroke="#5d7e6c" stroke-width="2.5" style="cursor: pointer;" title="' + dayTitle + '"></circle>';
           });
           svgHtml += '</svg>';
-
           var labelsHtml = '<div style="display: flex; justify-content: space-between; padding: 0 5px; margin-top: 8px; width: 100%; box-sizing: border-box;">';
           points.forEach(function(p) {
               var dayNumber = p.raw.date.split('/')[0];
               labelsHtml += '<span style="font-size: 11px; color: #a0b2a6; font-weight: 600; width: 30px; text-align: center;">' + dayNumber + '</span>';
           });
           labelsHtml += '</div>';
-
           chartContainer.innerHTML = svgHtml + labelsHtml;
       }
 
       function generateDistributionProfile(moodlyData) {
           var container = document.getElementById("distributionContainer");
           if (!container) return;
-
           if (moodlyData.length === 0) {
               container.innerHTML = "<p style='color:#a3b899; font-size:13px;'>No profile distributions found.</p>";
               return;
           }
-
           var moodCounts = {};
           moodlyData.forEach(function(item) {
               var m = item.mood || "📝 Log";
               moodCounts[m] = (moodCounts[m] || 0) + 1;
           });
-
           container.innerHTML = "";
-          
           Object.keys(moodCounts).forEach(function(key) {
               var percentage = Math.round((moodCounts[key] / moodlyData.length) * 100);
               var distItem = document.createElement("div");
@@ -289,20 +267,15 @@
       function renderSleepDashboard(moodlyData) {
           var sleepContainer = document.getElementById("sleepDashboardView");
           if (!sleepContainer) return;
-
           if (moodlyData.length === 0) {
               sleepContainer.innerHTML = "<p style='color:#a3b899; font-size:13px;'>No check-in logs tracked yet.</p>";
               return;
           }
-
           var lastFewLogs = moodlyData.slice(-5);
           var barHtml = '<div style="display: flex; justify-content: space-around; align-items: flex-end; height: 120px; padding-top: 15px; margin-bottom: 10px;">';
-          
           var foundAnySleepData = false;
-
           lastFewLogs.forEach(function(item) {
               var hours = 0; 
-              
               if (item.note && item.note.includes("Sleep:")) {
                   var match = item.note.match(/Sleep:\s*(\d+(\.\d+)?)\s*h/i);
                   if (match && match[1]) {
@@ -310,58 +283,45 @@
                       foundAnySleepData = true;
                   }
               }
-
               var maxTargetHours = 10;
               var barHeightPercentage = Math.min((hours / maxTargetHours) * 100, 100);
-              
               var barColor = "#e57373"; 
               if (hours >= 7) {
                   barColor = "#5d7e6c"; 
               } else if (hours >= 5) {
                   barColor = "#8fae9a"; 
               }
-
               var dayLabel = item.date ? item.date.split('/')[0] : "Log";
-
               barHtml += '<div style="display: flex; flex-direction: column; align-items: center; width: 40px; position: relative;" title="Slept ' + hours + ' hours on ' + dayLabel + '">' +
-                         '  <span style="font-size: 11px; font-weight: bold; color: ' + barColor + '; margin-bottom: 4px;">' + (hours > 0 ? hours + 'h' : '-') + '</span>' +
-                         '  <div style="width: 24px; height: ' + barHeightPercentage + 'px; background-color: ' + barColor + '; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>' +
-                         '  <span style="font-size: 11px; color: #a0b2a6; font-weight: 600; margin-top: 6px;">' + dayLabel + '</span>' +
+                         '   <span style="font-size: 11px; font-weight: bold; color: ' + barColor + '; margin-bottom: 4px;">' + (hours > 0 ? hours + 'h' : '-') + '</span>' +
+                         '   <div style="width: 24px; height: ' + barHeightPercentage + 'px; background-color: ' + barColor + '; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>' +
+                         '   <span style="font-size: 11px; color: #a0b2a6; font-weight: 600; margin-top: 6px;">' + dayLabel + '</span>' +
                          '</div>';
           });
-
           barHtml += '</div>';
-
           if (!foundAnySleepData) {
               sleepContainer.innerHTML = "<p style='color:#a3b899; font-size:13px;'>Sleep data not found in logs.</p>" +
                                          "<p style='color:#b5c4b1; font-size:11px; margin-top:4px;'>Make sure your logs contain '[Sleep: Xh]' format.</p>";
               return;
           }
-
           sleepContainer.innerHTML = barHtml + '<p style="font-size: 11px; color: #a0b2a6; text-align: center; margin-top: 5px;"><i class="bx bx-info-circle"></i> Showing duration (hours) for past logs</p>';
       }
 
       function renderRecentHistory(moodlyData) {
           var historyList = document.getElementById("historyLogList");
           if (!historyList) return;
-
           historyList.innerHTML = "";
-
           if (moodlyData.length === 0) {
               historyList.innerHTML = "<li style='color:#a3b899; font-size:13px; list-style:none;'>No tracking records found.</li>";
               return;
           }
-
           var chronologicalLogs = moodlyData.slice().reverse();
-
           chronologicalLogs.forEach(function(item, index) {
               var originalIndex = moodlyData.length - 1 - index;
               var li = document.createElement("li");
               li.className = "history-item";
-
               var moodTitle = item.mood || "📝";
               var customNote = item.note || "No custom notes provided.";
-
               li.innerHTML = '<div class="history-meta" style="display:flex; justify-content:space-between; align-items:center;">' +
                              '<strong>' + moodTitle + ' Feeling Log</strong>' +
                              '<span class="history-time" style="font-size:12px; color:#a0b2a6; margin-right:35px;">' + item.date + '</span>' +
@@ -370,10 +330,8 @@
                              '<button class="delete-log-btn" data-index="' + originalIndex + '" style="position: absolute; right: 12px; top: 12px; background: transparent; border: none; color: #e57373; font-size: 18px; cursor: pointer;" title="Delete log">' +
                              '<i class="bx bx-trash"></i>' +
                              '</button>';
-              
               historyList.appendChild(li);
           });
-
           document.querySelectorAll(".delete-log-btn").forEach(function(button) {
               button.addEventListener("click", function() {
                   var targetIndex = parseInt(this.getAttribute("data-index"));
