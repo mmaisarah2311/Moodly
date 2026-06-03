@@ -191,10 +191,28 @@
               chartContainer.innerHTML = "<p style='color:#a3b899; font-size:13px; padding: 20px; text-align:center; width:100%;'>No graph data available.</p>";
               return;
           }
-          var lastLogs = moodlyData.slice(-7);
+
+          var sortedLogs = moodlyData.slice().sort(function(a, b) {
+              var pA = a.date.split('/');
+              var pB = b.date.split('/');
+              return new Date(pA[2], pA[1]-1, pA[0]).getTime() - new Date(pB[2], pB[1]-1, pB[0]).getTime();
+          });
+
+          var uniqueDayLogs = [];
+          var seenDates = {};
+          for (var i = sortedLogs.length - 1; i >= 0; i--) {
+              var dKey = sortedLogs[i].date;
+              if (!seenDates[dKey]) {
+                  seenDates[dKey] = true;
+                  uniqueDayLogs.unshift(sortedLogs[i]);
+              }
+          }
+
+          var displayLogs = uniqueDayLogs.slice(-7);
           var points = [];
-          var widthBetweenPoints = lastLogs.length > 1 ? 240 / (lastLogs.length - 1) : 0;
-          lastLogs.forEach(function(item, index) {
+          var widthBetweenPoints = displayLogs.length > 1 ? 240 / (displayLogs.length - 1) : 0;
+
+          displayLogs.forEach(function(item, index) {
               var yCoord = 90; 
               if (item.note && item.note.includes("Intensity:")) {
                   var matchedIntensity = item.note.match(/Intensity:\s*(\d+)/);
@@ -214,6 +232,7 @@
               var xCoord = 15 + (index * widthBetweenPoints);
               points.push({ x: xCoord, y: yCoord, raw: item });
           });
+
           var pathDefinition = "";
           points.forEach(function(p, idx) {
               if (idx === 0) {
@@ -222,6 +241,7 @@
                   pathDefinition += " L " + p.x + " " + p.y;
               }
           });
+
           var svgHtml = '<svg viewBox="0 0 280 140" style="width: 100%; height: 135px; overflow: visible;">' +
                         '<path d="' + pathDefinition + '" fill="none" stroke="#a3b899" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>' +
                         '<path d="' + pathDefinition + '" fill="none" stroke="#5d7e6c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
@@ -230,6 +250,7 @@
               svgHtml += '<circle cx="' + p.x + '" cy="' + p.y + '" r="5" fill="#ffffff" stroke="#5d7e6c" stroke-width="2.5" style="cursor: pointer;" title="' + dayTitle + '"></circle>';
           });
           svgHtml += '</svg>';
+
           var labelsHtml = '<div style="display: flex; justify-content: space-between; padding: 0 5px; margin-top: 8px; width: 100%; box-sizing: border-box;">';
           points.forEach(function(p) {
               var dayNumber = p.raw.date.split('/')[0];
@@ -271,10 +292,28 @@
               sleepContainer.innerHTML = "<p style='color:#a3b899; font-size:13px;'>No check-in logs tracked yet.</p>";
               return;
           }
-          var lastFewLogs = moodlyData.slice(-5);
+
+          var sortedLogs = moodlyData.slice().sort(function(a, b) {
+              var pA = a.date.split('/');
+              var pB = b.date.split('/');
+              return new Date(pA[2], pA[1]-1, pA[0]).getTime() - new Date(pB[2], pB[1]-1, pB[0]).getTime();
+          });
+
+          var uniqueDayLogs = [];
+          var seenDates = {};
+          for (var i = sortedLogs.length - 1; i >= 0; i--) {
+              var dKey = sortedLogs[i].date;
+              if (!seenDates[dKey]) {
+                  seenDates[dKey] = true;
+                  uniqueDayLogs.unshift(sortedLogs[i]);
+              }
+          }
+
+          var displayLogs = uniqueDayLogs.slice(-5);
           var barHtml = '<div style="display: flex; justify-content: space-around; align-items: flex-end; height: 120px; padding-top: 15px; margin-bottom: 10px;">';
           var foundAnySleepData = false;
-          lastFewLogs.forEach(function(item) {
+
+          displayLogs.forEach(function(item) {
               var hours = 0; 
               if (item.note && item.note.includes("Sleep:")) {
                   var match = item.note.match(/Sleep:\s*(\d+(\.\d+)?)\s*h/i);
@@ -300,8 +339,7 @@
           });
           barHtml += '</div>';
           if (!foundAnySleepData) {
-              sleepContainer.innerHTML = "<p style='color:#a3b899; font-size:13px;'>Sleep data not found in logs.</p>" +
-                                         "<p style='color:#b5c4b1; font-size:11px; margin-top:4px;'>Make sure your logs contain '[Sleep: Xh]' format.</p>";
+              sleepContainer.innerHTML = "<p style='color:#a3b899; font-size:13px;'>Sleep data not found in logs.</p>";
               return;
           }
           sleepContainer.innerHTML = barHtml + '<p style="font-size: 11px; color: #a0b2a6; text-align: center; margin-top: 5px;"><i class="bx bx-info-circle"></i> Showing duration (hours) for past logs</p>';
